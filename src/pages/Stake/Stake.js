@@ -1,8 +1,6 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import React, { useEffect, useMemo } from "react";
 import SingleStakeCard from "../../components/SingleStakeCard";
-import Footer from "../../common/Footer";
-import Wallet from "../../common/Wallet";
 import { connect } from "react-redux";
 import { supportedStaking, unsupportedStaking } from "../../constants";
 import { CHANGE_NETWORK, CONNECT_WALLET } from "../../actions/types";
@@ -191,10 +189,6 @@ const Home = ({ account: { error, currentChain } }) => {
         {supportedStakingPools.length === 0 && (
           <div style={{ textAlign: "center", color: "white" }}></div>
         )}
-      </div>
-
-      <div className="d-flex justify-content-center pb-3">
-        <Footer />
       </div>
     </div>
   );

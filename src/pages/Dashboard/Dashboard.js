@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
-import Stake from "../Stake/Stake";
 import { supportedStaking, unsupportedStaking } from "../../constants";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import Dashboard from "pages/Dashboard/Dashboard";
+import PBRStats from "./components/PBRStats";
+import BalancesCard from "./components/BalancesCard";
 
 const useStyles = makeStyles((theme) => ({
   background: {
+    // backgroundImage: 'url("images/network.png")',
     backgroundPosition: "center center,center center",
     backgroundRepeat: "no-repeat,no-repeat",
     backgroundSize: "cover,contain",
     height: "100%",
     width: "100%",
-    paddingTop: "5%",
+    paddingTop: "3%",
     paddingLeft: "3%",
     paddingRight: "3%",
     [theme.breakpoints.down("md")]: {
@@ -28,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     fontSize: 32,
     letterSpacing: "0.02em",
-    color: "#ffffff",
+    color: "#f9f9f9",
     textAlign: "left",
     [theme.breakpoints.down("md")]: {
-      color: "#e5e5e5",
-      fontSize: 32,
+      fontSize: 24,
     },
   },
 
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Dashboard() {
   const classes = useStyles();
   const theme = useTheme();
   const store = useSelector((state) => state);
@@ -54,11 +54,20 @@ export default function Home() {
   const { active, account, chainId } = useActiveWeb3React();
 
   return (
-    <Box>
-      {menuTabIndex === 0 && <Dashboard />}
-      {menuTabIndex === 1 && <Stake />}
-      {/* {menuTabIndex === 2 && <Launchpad />} */}
-      {/* {menuTabIndex === 3 && <Ino />} */}
+    <Box className={classes.background}>
+      <h3 variant="h1" className={classes.pageTitle}>
+        Dashboard
+      </h3>
+      <div className="row">
+        <div className="col-md-8">
+          <PBRStats />
+        </div>
+        <div className="col-md-4">
+          <div>
+            <BalancesCard tokens={supportedStaking[chainId]} />
+          </div>
+        </div>
+      </div>
     </Box>
   );
 }

@@ -526,56 +526,6 @@ const StakeDialog = ({
             </div>
           </div>
         </div>
-
-        {/* <div className={classes.background}>
-          <DialogTitle onClose={handleClose}>
-            <span className={classes.heading}>
-           
-            </span>
-          </DialogTitle>
-
-          <p className={classes.subheading}>
-            {type === "stake"
-              ? `Available tokens: ${currentFormattedBalance()}  ${tokenType}`
-              : `Staked tokens: ${currentFormattedStakedBal()} ${tokenType}`}
-          </p>
-          <div className={classes.inputGroup}>
-            <input
-              placeholder="0"
-              value={
-                inputTokens ? formatCurrency(inputTokens, false, 0, true) : ""
-              }
-              onChange={handleInputChange}
-              label={`Enter ${tokenType} tokens`}
-              className={classes.input}
-            />
-
-            <Button className={classes.maxBtn} onClick={handleMax}>
-              Max
-            </Button>
-          </div>
-          {error.status ? (
-            <span className={classes.error}>{error.message}</span>
-          ) : (
-            ""
-          )}
-          <div className={classes.buttons}>
-            {transactionStatus?.status &&
-            transactionStatus?.status === "waiting" ? (
-              <div className="text-center">
-                <CircularProgress className={classes.numbers} />
-                <p className={classes.subheading}>Waiting for confirmation</p>
-              </div>
-            ) : (
-              <>
-                <CustomButton variant="light" onClick={onClose}>
-                  Cancel
-                </CustomButton>
-                <CustomButton onClick={onConfirm}>Confirm</CustomButton>
-              </>
-            )}
-          </div>
-        </div> */}
       </Dialog>
     </div>
   );

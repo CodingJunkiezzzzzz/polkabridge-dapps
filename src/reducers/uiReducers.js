@@ -1,7 +1,7 @@
 import { UPDATE_MENUTAB_INDEX, GET_ORDER } from "../actions/types";
 
 const initalState = {
-  menuTabIndex: 1,
+  menuTabIndex: 0,
 };
 
 export default function UI(state = initalState, action) {
