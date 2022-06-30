@@ -173,33 +173,44 @@ const NetworkDialog = ({ account: { currentChain } }) => {
           : ethereumNetworkDetail.testnet
       );
     }
-    // handleClose();
+    setNetwork(_selected);
+    handleClose();
   };
 
-  const networkNameFromId = () => {
+  const networkNameFromId = (currentNetwork) => {
+    console.log(currentConnection);
+    console.log(currentNetwork);
+    let networkName = "Ethereum";
     if (currentConnection === "testnet") {
-      switch (network) {
+      switch (currentNetwork) {
         case 42:
-          return "Rinkeby";
+          networkName = "Rinkeby";
+          break;
         case 97:
-          return "BSC Testnet";
+          networkName = "BSC Testnet";
+          break;
         case 80001:
-          return "Polygon Testnet";
+          networkName = "Polygon Testnet";
+          break;
         default:
-          return "Ethereum";
+          networkName = "Ethereum";
       }
     } else {
-      switch (network) {
+      switch (currentNetwork) {
         case 1:
-          return "Ethereum";
-        case 97:
-          return "BSC";
-        case 80001:
-          return "Polygon";
+          networkName = "Ethereum";
+          break;
+        case 56:
+          networkName = "BSC";
+          break;
+        case 137:
+          networkName = "Polygon";
+          break;
         default:
-          return "Ethereum";
+          networkName = "Ethereum";
       }
     }
+    return networkName;
   };
   return (
     <div>
@@ -219,7 +230,7 @@ const NetworkDialog = ({ account: { currentChain } }) => {
             padding: "7px 15px 7px 15px",
           }}
         >
-          {networkNameFromId()}
+          {networkNameFromId(network)}
         </div>
       </Box>
 
