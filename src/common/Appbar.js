@@ -9,6 +9,7 @@ import { WalletConnectConnector } from "web3-react-walletconnect-connector";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";
 import { useEffect, useState } from "react";
 import AccountDialog from "./AccountDialog";
+import NetworkDialog from "./NetworkDialog";
 
 const useStyles = makeStyles((theme) => ({
   linkItems: {
@@ -101,7 +102,8 @@ const Appbar = () => {
 
   const [accountDialog, setAccountDialog] = useState(false);
 
-  const { active, account, activate, deactivate } = useActiveWeb3React();
+  const { active, account, activate, deactivate, chainId } =
+    useActiveWeb3React();
 
   useEffect(() => {
     if (!active && localStorage.connected === "yes") {
@@ -163,6 +165,7 @@ const Appbar = () => {
           handleClose={() => setAccountDialog(false)}
           handleConnection={handleWalletConnect}
         />
+
         <Hidden mdDown>
           <Container>
             <Box
@@ -175,33 +178,7 @@ const Appbar = () => {
                 <div style={{ padding: 3, paddingRight: 10 }}>
                   <Avatar src="https://cdn3d.iconscout.com/3d/premium/thumb/notification-bell-4730505-3934029.png" />{" "}
                 </div>{" "}
-                <Box
-                  display="flex"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                >
-                  <Link to="activities">
-                    {" "}
-                    <div
-                      style={{
-                        paddingLeft: 2,
-                        color: "white",
-                        fontWeight: 500,
-                        fontSize: 15,
-                        textDecoration: "none",
-                        marginRight: 10,
-                        // borderColor: theme.palette.primary.light,
-                        // borderWidth: 2,
-                        // borderStyle: "solid",
-                        border: "2px solid #7825D5",
-                        borderRadius: 12,
-                        padding: "7px 15px 7px 15px",
-                      }}
-                    >
-                      Ethereum
-                    </div>
-                  </Link>
-                </Box>
+                <NetworkDialog selectedNetwork={chainId} />
                 <Wallet onWalletClick={handleWalletClick} />
               </Box>
             </Box>
