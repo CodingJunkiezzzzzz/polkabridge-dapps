@@ -6,6 +6,7 @@ import { supportedStaking, unsupportedStaking } from "../../constants";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import PBRStats from "./components/PBRStats";
 import BalancesCard from "./components/BalancesCard";
+import { getPbrStats } from "./../../actions/apiActions";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -51,7 +52,23 @@ export default function Dashboard() {
   const store = useSelector((state) => state);
   const { menuTabIndex } = store.ui;
 
+  let [stats, setStats] = useState({
+    usd: 0.0,
+    usd_24h_change: 0,
+    usd_market_cap: 0,
+  });
+
   const { active, account, chainId } = useActiveWeb3React();
+
+  useEffect(() => {
+    async function asyncFn() {
+      let data = await getPbrStats();
+      if (data.polkabridge) {
+        setStats(data.polkabridge);
+      }
+    }
+    asyncFn();
+  }, []);
 
   return (
     <Box className={classes.background}>
@@ -60,7 +77,7 @@ export default function Dashboard() {
       </h3>
       <div className="row">
         <div className="col-md-8">
-          <PBRStats />
+          <PBRStats stats={stats} />
         </div>
         <div className="col-md-4">
           <div>

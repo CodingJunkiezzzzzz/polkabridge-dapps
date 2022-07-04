@@ -9,10 +9,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useChain } from "react-moralis";
 import { Container } from "@mui/system";
-import StakePoolCard from "./components/LaunchpadCard";
-import LaunchpadCard from "./components/LaunchpadCard";
 import {
   LinkedIn,
   Mail,

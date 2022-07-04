@@ -62,6 +62,7 @@ const PbrStats = ({
   account: { currentChain },
   stake: { pbrMarketData, poolLoading },
   fetchPbrMarketData,
+  stats,
 }) => {
   const classes = useStyles();
 
@@ -73,6 +74,8 @@ const PbrStats = ({
     <Box className={classes.card}>
       {!poolLoading && (
         <Box>
+          {console.log(pbrMarketData)}
+          {console.log(stats)}
           <Box
             display="flex"
             flexDirection={"row"}
@@ -115,7 +118,13 @@ const PbrStats = ({
                 </Typography>
               </Box>
             </Box>
-            <button className={classes.buyButton}>BUY PBR</button>
+            <a
+              href="https://coinmarketcap.com/exchanges/uniswap-v2/"
+              target="_blank"
+            >
+              {" "}
+              <button className={classes.buyButton}>BUY PBR</button>
+            </a>
           </Box>
 
           <hr
@@ -154,7 +163,9 @@ const PbrStats = ({
                       fontWeight={600}
                       fontSize={28}
                     >
-                      $3.2
+                      $
+                      {pbrMarketData &&
+                        parseFloat(pbrMarketData.mCap / 1000000).toFixed(2)}
                       <span
                         style={{
                           fontSize: 14,
@@ -189,7 +200,7 @@ const PbrStats = ({
                       fontWeight={600}
                       fontSize={28}
                     >
-                      $1.45
+                      $0.45
                       <span
                         style={{
                           fontSize: 14,
@@ -227,7 +238,13 @@ const PbrStats = ({
                       fontWeight={600}
                       fontSize={28}
                     >
-                      +13
+                      {pbrMarketData && (
+                        <span>
+                          {pbrMarketData.change > 0
+                            ? "+" + parseFloat(pbrMarketData.change).toFixed(2)
+                            : "-" + parseFloat(pbrMarketData.change).toFixed(2)}
+                        </span>
+                      )}
                       <span
                         style={{
                           fontSize: 14,
@@ -262,7 +279,7 @@ const PbrStats = ({
                       fontWeight={600}
                       fontSize={28}
                     >
-                      37M
+                      77.8M
                       <span
                         style={{
                           fontSize: 14,
@@ -301,7 +318,7 @@ const PbrStats = ({
                   fontSize={32}
                   color={"rgba(146, 103, 219,1)"}
                 >
-                  $0.064
+                  ${pbrMarketData && pbrMarketData.tokenPrice}
                 </Typography>
               </Box>
             </Grid>
