@@ -44,7 +44,7 @@ import { usePoolStakedInfo } from "../hooks/usePoolStakedInfo";
 import { useUserStakedInfo } from "../hooks/useUserStakedInfo";
 import { useTokenPrice } from "../hooks/useTokenPrice";
 import { useStakeCallback } from "../hooks/useStakeCallback";
-import StakeDialog from "../common/StakeDialog";
+import StakeDialog from "../pages/Stake/Popups/StakeDialog";
 
 const useStyles = makeStyles((theme) => ({
   card: {

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Input, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Close } from "@mui/icons-material";
-import { useMoralis, useMoralisWeb3Api } from "react-moralis";
 import Web3 from "web3";
 
 const useStyles = makeStyles((theme) => ({

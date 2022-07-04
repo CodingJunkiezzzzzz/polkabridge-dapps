@@ -1,29 +1,27 @@
 import React, { useMemo, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import { CircularProgress } from "@material-ui/core";
-import CustomButton from "./../components/CustomButton";
 import {
   formatCurrency,
   fromWei,
   isNumber,
   resetCurrencyFormatting,
-} from "../utils/helper";
-import { minimumStakingAmount, poolId, tokenAddresses } from "../constants";
+} from "../../../utils/helper";
+import {
+  minimumStakingAmount,
+  poolId,
+  tokenAddresses,
+} from "../../../constants";
 import BigNumber from "bignumber.js";
-import useActiveWeb3React from "../hooks/useActiveWeb3React";
-import { useTokenBalance } from "../hooks/useBalance";
-import { useUserStakedInfo } from "../hooks/useUserStakedInfo";
+import useActiveWeb3React from "../../../hooks/useActiveWeb3React";
+import { useTokenBalance } from "../../../hooks/useBalance";
+import { useUserStakedInfo } from "../../../hooks/useUserStakedInfo";
 import {
   Grow,
   Backdrop,
   Box,
   Typography,
   Button,
-  Input,
   useTheme,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";

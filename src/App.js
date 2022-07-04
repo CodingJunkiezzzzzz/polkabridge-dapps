@@ -15,6 +15,7 @@ import { Grid, Box, Hidden } from "@material-ui/core";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SideBar from "common/SideBar";
 import Appbar from "common/Appbar";
+import LaunchpadDetails from "pages/Launchpad/LaunchpadDetails";
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -46,6 +47,10 @@ function App() {
                     <Appbar />
                     <Routes>
                       <Route path="/" element={<Home />} />
+                      <Route
+                        path="/view-launchpad"
+                        element={<LaunchpadDetails />}
+                      />
                     </Routes>
                   </Grid>
                 </Grid>

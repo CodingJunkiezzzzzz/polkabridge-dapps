@@ -6,6 +6,7 @@ import Stake from "../Stake/Stake";
 import { supportedStaking, unsupportedStaking } from "../../constants";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import Dashboard from "pages/Dashboard/Dashboard";
+import Launchpad from "pages/Launchpad/Launchpad";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -57,7 +58,7 @@ export default function Home() {
     <Box>
       {menuTabIndex === 0 && <Dashboard />}
       {menuTabIndex === 1 && <Stake />}
-      {/* {menuTabIndex === 2 && <Launchpad />} */}
+      {menuTabIndex === 2 && <Launchpad />}
       {/* {menuTabIndex === 3 && <Ino />} */}
     </Box>
   );
