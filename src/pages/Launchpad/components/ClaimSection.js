@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import {
-  Box,
-  Button,
-  Divider,
-  Input,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { useChain } from "react-moralis";
-import { Container } from "@mui/system";
-import { Verified } from "@mui/icons-material";
-
+import { Box, Button, Typography, useTheme } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   background: {
     height: "100%",
@@ -125,7 +114,6 @@ export default function ClaimSection() {
   const theme = useTheme();
 
   const [claimEnable, setClaimEnable] = useState(true);
-  const { account } = useChain();
 
   return (
     <Box className={classes.purchaseCard} mt={3}>

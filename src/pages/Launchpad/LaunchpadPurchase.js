@@ -8,16 +8,16 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useChain } from "react-moralis";
 import { Container } from "@mui/system";
 import { Verified } from "@mui/icons-material";
 import ClaimSection from "./components/ClaimSection";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   background: {
     height: "100%",
     width: "100%",
-    paddingTop: "5%",
+    paddingTop: "2%",
     paddingLeft: "3%",
     paddingRight: "3%",
     [theme.breakpoints.down("md")]: {
@@ -134,84 +134,142 @@ const useStyles = makeStyles((theme) => ({
 export default function LaunchpadPurchase() {
   const classes = useStyles();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const [saleStatus, setSaleStatus] = useState(true);
 
   return (
     <Box>
       <Box className={classes.background}>
+        <Typography
+          variant="body2"
+          mb={2}
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+          fontWeight={600}
+        >
+          {"< "} Back
+        </Typography>
         <Box
           display="flex"
           flexDirection={"row"}
-          justifyContent="flex-start"
+          justifyContent="space-between"
           alignItems="center"
         >
           <Box
             display="flex"
-            flexDirection={"column"}
+            flexDirection={"row"}
             justifyContent="flex-start"
             alignItems="center"
           >
-            <Box className={classes.imageWrapper}>
-              <img
-                src="https://launchpad.polkabridge.org/img/tokens/arcade.png"
-                alt="Company Logo"
-                height="135px"
-              />{" "}
+            <Box
+              display="flex"
+              flexDirection={"column"}
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <Box className={classes.imageWrapper}>
+                <img
+                  src="https://launchpad.polkabridge.org/img/tokens/arcade.png"
+                  alt="Company Logo"
+                  height="70px"
+                />{" "}
+              </Box>
+              <Button
+                style={{
+                  height: 26,
+                  marginTop: 10,
+                  width: "fit-content",
+                  fontSize: 10,
+                  borderRadius: 10,
+                  background: "#7825D5",
+                  padding: "2px 10px 2px 10px",
+                  color: "white",
+                }}
+              >
+                <Verified style={{ color: "#81c784", padding: 3 }} /> Guaranteed
+              </Button>
             </Box>
-            <Button
-              style={{
-                height: 26,
-                marginTop: 10,
-                width: "fit-content",
-                fontSize: 10,
-                borderRadius: 10,
-                background: "#7825D5",
-                padding: "2px 15px 2px 15px",
-                color: "white",
-              }}
-            >
-              <Verified style={{ color: "#81c784", padding: 3 }} /> Guaranteed
-            </Button>
-          </Box>
-          <Box ml={5} style={{ width: "60%" }}>
-            <Typography
-              variant="h6"
-              className={classes.title}
-              textAlign="left"
-              fontWeight={600}
-            >
-              Arcade Network
-            </Typography>
-            <Typography
-              variant="h6"
-              className={classes.subheading}
-              textAlign="left"
-              fontWeight={600}
-            >
-              Metaverse Gaming Platform
-            </Typography>
+            <Box ml={5} style={{ width: "100%", minWidth: 500 }}>
+              <Typography
+                variant="h6"
+                className={classes.title}
+                textAlign="left"
+                fontWeight={600}
+                fontSize={24}
+                letterSpacing={"0.02em"}
+                color={"#f9f9f9"}
+              >
+                Arcade Network
+              </Typography>
+              <Typography
+                variant="body2"
+                textAlign="left"
+                fontWeight={500}
+                fontSize={14}
+                color={"#9e9e9e"}
+              >
+                Metaverse Gaming Platform
+              </Typography>
 
-            <Box display={"flex"} justifyContent={"space-between"} my={2}>
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="right"
-                fontWeight={700}
-              >
-                Your staked amount:{" "}
-                <strong style={{ color: "#E0077D" }}>0.00 PBR</strong>
-              </Typography>
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="right"
-                fontWeight={700}
-              >
-                Your max purchase:{" "}
-                <strong style={{ color: "#E0077D" }}>0 BNB</strong>
-              </Typography>
+              <Box className="w-100 mt-4">
+                <div>
+                  <Typography
+                    variant="body2"
+                    textAlign="left"
+                    fontWeight={400}
+                    fontSize={14}
+                    color="#f9f9f9"
+                    pb={1}
+                  >
+                    Progress (21%)
+                  </Typography>
+                  <div class="containered">
+                    <div class="progress2 progress-moved">
+                      <div class="progress-bar2"></div>
+                    </div>
+                  </div>
+                </div>
+              </Box>
             </Box>
+          </Box>
+          <Box
+            my={2}
+            style={{
+              backgroundColor: "rgba(16,6,26,0.3)",
+              paddingTop: 14,
+              paddingBottom: 14,
+              paddingLeft: 25,
+              paddingRight: 25,
+              borderRadius: 10,
+              border: "1px solid #313131",
+            }}
+          >
+            <Typography
+              variant="body2"
+              className={classes.para}
+              fontWeight={400}
+              fontSize={14}
+              letterSpacing={"0.02em"}
+              color={"#f9f9f9"}
+              textAlign="left"
+            >
+              Your staked amount:{" "}
+              <strong style={{ color: "#7825D5" }}>0.00 PBR</strong>
+            </Typography>
+            <Typography
+              variant="body2"
+              className={classes.para}
+              fontWeight={400}
+              fontSize={14}
+              letterSpacing={"0.02em"}
+              color={"#f9f9f9"}
+              textAlign="left"
+              mt={1}
+            >
+              Your max purchase:{" "}
+              <strong style={{ color: "#7825D5" }}>0 BNB</strong>
+            </Typography>
           </Box>
         </Box>
         <Divider
@@ -243,8 +301,11 @@ export default function LaunchpadPurchase() {
                       className={classes.para}
                       textAlign="left"
                       fontWeight={600}
+                      fontSize={16}
+                      letterSpacing={"0.02em"}
+                      color={"#e0e0e0"}
                     >
-                      Input
+                      From:
                     </Typography>
                   </Box>
                   <Box>
@@ -254,7 +315,6 @@ export default function LaunchpadPurchase() {
                       style={{
                         borderRadius: 10,
                         fontSize: 22,
-
                         width: "90%",
                         color: "#ffffff",
                       }}
@@ -272,9 +332,12 @@ export default function LaunchpadPurchase() {
                       variant="h6"
                       className={classes.para}
                       textAlign="left"
-                      fontWeight={600}
+                      fontWeight={400}
+                      fontSize={14}
+                      letterSpacing={"0.02em"}
+                      color={"#e0e0e0"}
                     >
-                      Your Wallet Balance: 0.18
+                      Balance: 0.18
                     </Typography>
                   </Box>
                   <Box
@@ -324,11 +387,13 @@ export default function LaunchpadPurchase() {
                     {" "}
                     <Typography
                       variant="h6"
-                      className={classes.para}
                       textAlign="left"
                       fontWeight={600}
+                      fontSize={16}
+                      letterSpacing={"0.02em"}
+                      color={"#e0e0e0"}
                     >
-                      Output
+                      To:
                     </Typography>
                   </Box>
                   <Box>
@@ -351,6 +416,19 @@ export default function LaunchpadPurchase() {
                   justifyContent="center"
                   alignItems={"flex-end"}
                 >
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      className={classes.para}
+                      textAlign="left"
+                      fontWeight={400}
+                      fontSize={14}
+                      letterSpacing={"0.02em"}
+                      color={"#e0e0e0"}
+                    >
+                      Balance: 0.0
+                    </Typography>
+                  </Box>
                   <Box display={"flex"} justifyContent="flex-end">
                     <img
                       src="https://launchpad.polkabridge.org/img/tokens/arcade.png"

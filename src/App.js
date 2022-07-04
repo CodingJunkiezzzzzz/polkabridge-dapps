@@ -16,6 +16,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SideBar from "common/SideBar";
 import Appbar from "common/Appbar";
 import LaunchpadDetails from "pages/Launchpad/LaunchpadDetails";
+import LaunchpadPurchase from "pages/Launchpad/LaunchpadPurchase";
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -50,6 +51,10 @@ function App() {
                       <Route
                         path="/view-launchpad"
                         element={<LaunchpadDetails />}
+                      />
+                      <Route
+                        path="/purchase-launchpad"
+                        element={<LaunchpadPurchase />}
                       />
                     </Routes>
                   </Grid>

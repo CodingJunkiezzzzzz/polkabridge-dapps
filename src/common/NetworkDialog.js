@@ -224,7 +224,7 @@ const NetworkDialog = ({ account: { currentChain } }) => {
             fontSize: 15,
             textDecoration: "none",
             marginRight: 10,
-
+            cursor: "pointer",
             border: "2px solid #7825D5",
             borderRadius: 12,
             padding: "7px 15px 7px 15px",
@@ -263,6 +263,7 @@ const NetworkDialog = ({ account: { currentChain } }) => {
                 fontWeight={600}
                 ml={2}
                 color={"#212121"}
+                fontSize={14}
               >
                 Ethereum
               </Typography>
@@ -286,6 +287,7 @@ const NetworkDialog = ({ account: { currentChain } }) => {
                 fontWeight={600}
                 ml={2}
                 color={"#212121"}
+                fontSize={14}
               >
                 BSC
               </Typography>
@@ -309,6 +311,7 @@ const NetworkDialog = ({ account: { currentChain } }) => {
                 fontWeight={600}
                 ml={2}
                 color={"#212121"}
+                fontSize={14}
               >
                 Polygon
               </Typography>

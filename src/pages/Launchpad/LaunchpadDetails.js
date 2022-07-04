@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover,contain",
     height: "100%",
     width: "100%",
-    paddingTop: "3%",
+    paddingTop: "2%",
     paddingLeft: "3%",
     paddingRight: "3%",
     [theme.breakpoints.down("md")]: {
