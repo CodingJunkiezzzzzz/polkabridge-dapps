@@ -5,8 +5,10 @@ import MulticallABI from "../contracts/abi/multicall.json";
 import useActiveWeb3React from "./useActiveWeb3React";
 import ERC20_ABI from "../contracts/abi/erc20.json";
 import STAKE_ABI from "../contracts/abi/PolkaBridgeStaking.json";
+import INO_ABI from "../contracts/abi/inoABI.json";
+
 import { MULTICALL_ADDRESS } from "../constants/chains";
-import { STAKE_ADDRESSES } from "../constants/index";
+import { INO_ADDRESSES, STAKE_ADDRESSES } from "../constants/index";
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -64,6 +66,18 @@ export function useStakeContract(
   return useContract(
     STAKE_ADDRESSES[chainId ? chainId : 1],
     STAKE_ABI,
+    withSignerIfPossible
+  );
+}
+
+export function useInoContract(
+  withSignerIfPossible?: boolean
+): Contract | null {
+  const { chainId } = useActiveWeb3React();
+
+  return useContract(
+    INO_ADDRESSES[chainId ? chainId : 1],
+    INO_ABI,
     withSignerIfPossible
   );
 }

@@ -29,3 +29,7 @@ export const GET_USER_STAKE_DATA = "GET_USER_STAKE_DATA";
 
 // DAPP Reducers - Sidebar
 export const UPDATE_MENUTAB_INDEX = "UPDATE_MENUTAB_INDEX";
+
+// DAPP Reducers - INO
+export const GET_SINGLE_POOL = "GET_SINGLE_POOL";
+export const GET_ALL_POOLS = "GET_ALL_POOLS";

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import {
-  Box,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Divider, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
 import InoCard from "./components/InoCard";
+import useActiveWeb3React from "hooks/useActiveWeb3React";
+import localPools from "./data/poolsData";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -70,6 +65,8 @@ export default function Ino() {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("md"));
 
+  const { active, account, chainId } = useActiveWeb3React();
+
   return (
     <Box>
       <Box className={classes.background}>
@@ -101,12 +98,13 @@ export default function Ino() {
 
         <Container>
           <Grid container display={"flex"} justifyContent="center">
-            <Grid item md={6}>
-              <InoCard />
-            </Grid>
-            <Grid item md={6}>
-              <InoCard />
-            </Grid>
+            {localPools.map((item) => {
+              return (
+                <Grid item md={6}>
+                  <InoCard item={item} />
+                </Grid>
+              );
+            })}
           </Grid>
         </Container>
       </Box>

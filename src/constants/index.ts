@@ -12,6 +12,13 @@ export const STAKE_ADDRESSES: { [index: number]: string } = {
   97: "0xA5c2186CFb734828EE89a4087FD571F12Af1E895", // bsc testnet
 };
 
+export const INO_ADDRESSES: { [index: number]: string } = {
+  1: "0x6AE737c28661D9A37ffC78Ac3e926F97b2e5d876",
+  4: "0x14c3f86a10DDBc9Df9914dACfaEad9f859914B62",
+  56: "0xA86AB20FA75CF824E27651092ba43fE35FBBF6cb", // bsc mainnet
+  97: "0xAD2e444f72F04694370458D268A3E8B470B5cF7D", // bsc testnet
+};
+
 // stake contract addresses
 export const stakeContractAdrresses = {
   ethereum:
