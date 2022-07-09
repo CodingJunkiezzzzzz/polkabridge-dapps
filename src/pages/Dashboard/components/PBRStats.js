@@ -147,13 +147,11 @@ const PbrStats = ({
                     <Typography
                       variant="body2"
                       textAlign="left"
-                      fontWeight={400}
+                      fontWeight={600}
                       color={"#919191"}
                       fontSize={14}
+                      style={{ paddingBottom: 4 }}
                     >
-                      <TrendingUp
-                        style={{ color: "#F2B61C", fontSize: "14" }}
-                      />{" "}
                       Market Cap
                     </Typography>
                     <Typography
@@ -181,16 +179,16 @@ const PbrStats = ({
                     display={"flex"}
                     flexDirection="column"
                     justifyContent="flex-start"
-                    mt={3}
+                    mt={4}
                   >
                     <Typography
                       variant="body2"
                       textAlign="left"
-                      fontWeight={400}
+                      fontWeight={600}
                       color={"#919191"}
-                      fontSize={14}
+                      fontSize={16}
+                      style={{ paddingBottom: 4 }}
                     >
-                      <Savings style={{ color: "#42F975", fontSize: "14" }} />{" "}
                       TVL
                     </Typography>
                     <Typography
@@ -222,13 +220,11 @@ const PbrStats = ({
                     <Typography
                       variant="body2"
                       textAlign="left"
-                      fontWeight={400}
+                      fontWeight={600}
                       color={"#919191"}
                       fontSize={14}
+                      style={{ paddingBottom: 4 }}
                     >
-                      <TrendingUp
-                        style={{ color: "#F21C1C", fontSize: "14" }}
-                      />{" "}
                       24Hrs Change
                     </Typography>
                     <Typography
@@ -241,8 +237,8 @@ const PbrStats = ({
                       {pbrMarketData && (
                         <span>
                           {pbrMarketData.change > 0
-                            ? "+" + parseFloat(pbrMarketData.change).toFixed(2)
-                            : "-" + parseFloat(pbrMarketData.change).toFixed(2)}
+                            ? parseFloat(pbrMarketData.change).toFixed(2)
+                            : parseFloat(pbrMarketData.change).toFixed(2)}
                         </span>
                       )}
                       <span
@@ -260,16 +256,16 @@ const PbrStats = ({
                     display={"flex"}
                     flexDirection="column"
                     justifyContent="flex-start"
-                    mt={3}
+                    mt={4}
                   >
                     <Typography
                       variant="body2"
                       textAlign="left"
-                      fontWeight={400}
+                      fontWeight={600}
                       color={"#919191"}
                       fontSize={14}
+                      style={{ paddingBottom: 4 }}
                     >
-                      <Token style={{ color: "#7825D5", fontSize: "14" }} />{" "}
                       Total Supply
                     </Typography>
                     <Typography

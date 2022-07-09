@@ -92,8 +92,8 @@ let pool3 = {
 };
 
 let pool4 = {
-  id: 1,
-  poolId: 4,
+  id: 1, // Reference to Contract ID
+  poolId: 4, // Reference to Local ID
   logo: "https://miro.medium.com/max/1400/1*9oPwMlH9Hz38bWhNzVdeWg.png",
   title: "FOTA Heros",
   type: "Packages",
