@@ -105,7 +105,6 @@ export default function InoCard({ item }) {
 
   const { active, account, chainId } = useActiveWeb3React();
 
-  const [stakePopup, setStakePopup] = useState(false);
   const [poolDetails, setPoolDetails] = useState(null);
   const [isWhitelist, setIsWhitelist] = useState(false);
   const [remaining, setRemaining] = useState(0);
@@ -119,7 +118,6 @@ export default function InoCard({ item }) {
     }
     let activeChainIds = item.chainIds;
     let poolId = item.poolId;
-    let result = await getPoolDetails(poolId, activeChainIds);
     let remainingQuantity = await getRemainingQuantityOfPool(
       poolId,
       activeChainIds
@@ -136,7 +134,6 @@ export default function InoCard({ item }) {
     }
     setInitial(initialQuantity);
     setRemaining(remainingQuantity);
-    setPoolDetails(result);
     setLoading(false);
   }, [item, active]);
 
@@ -150,318 +147,315 @@ export default function InoCard({ item }) {
 
   return (
     <Box>
-      {console.log(poolDetails)}
       <div className={classes.filterCard}>
-        {poolDetails && (
-          <Box pt={0} px={3}>
+        <Box pt={0} px={3}>
+          <Box
+            display="flex"
+            flexDirection={"row"}
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Box
               display="flex"
               flexDirection={"row"}
-              justifyContent="space-between"
+              justifyContent="flex-start"
               alignItems="center"
             >
-              <Box
-                display="flex"
-                flexDirection={"row"}
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                <Box className={classes.imageWrapper}>
-                  <img
-                    src={item.logo}
-                    alt=" Logo"
-                    height="40px"
-                    className={classes.logo}
-                  />{" "}
-                </Box>
-                <Box>
-                  <Typography
-                    variant="h6"
-                    className={classes.cardTitle}
-                    textAlign="left"
-                    fontWeight={600}
-                    ml={2}
-                  >
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    className={classes.subheading}
-                    textAlign="left"
-                    fontWeight={600}
-                    ml={2}
-                  >
-                    {item.summary}
-                  </Typography>
-                </Box>
+              <Box className={classes.imageWrapper}>
+                <img
+                  src={item.logo}
+                  alt=" Logo"
+                  height="40px"
+                  className={classes.logo}
+                />{" "}
+              </Box>
+              <Box>
+                <Typography
+                  variant="h6"
+                  className={classes.cardTitle}
+                  textAlign="left"
+                  fontWeight={600}
+                  ml={2}
+                >
+                  {item.title}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  className={classes.subheading}
+                  textAlign="left"
+                  fontWeight={600}
+                  ml={2}
+                >
+                  {item.summary}
+                </Typography>
               </Box>
             </Box>
-            <Box>
-              <Typography
-                variant="h6"
-                textAlign="left"
-                fontSize={13}
-                fontWeight={500}
-                color="#bdbdbd"
-                minHeight={70}
-              >
-                {item.description.slice(0, 160) +
-                  (item.description.length > 160 ? "..." : "")}
-              </Typography>
-            </Box>
+          </Box>
+          <Box>
             <Typography
-              variant="body2"
+              variant="h6"
               textAlign="left"
-              fontWeight={400}
-              fontSize={14}
+              fontSize={13}
+              fontWeight={500}
               color="#bdbdbd"
-              pb={1}
+              minHeight={70}
             >
-              Progress (
-              {isNaN(parseFloat(percentageSell())) ? "--" : percentageSell()}%)
+              {item.description.slice(0, 160) +
+                (item.description.length > 160 ? "..." : "")}
             </Typography>
-            <div htmlFor="power" className={classes.powerWrapper}>
-              <ProgressStatsBar
-                value={
-                  isNaN(parseFloat(percentageSell())) ? 0 : initial - remaining
-                }
-                maxValue={isNaN(parseFloat(percentageSell())) ? 100 : initial}
-              />
-            </div>
-            {/* <div class="containered">
+          </Box>
+          <Typography
+            variant="body2"
+            textAlign="left"
+            fontWeight={400}
+            fontSize={14}
+            color="#bdbdbd"
+            pb={1}
+          >
+            Progress (
+            {isNaN(parseFloat(percentageSell())) ? "--" : percentageSell()}%)
+          </Typography>
+          <div htmlFor="power" className={classes.powerWrapper}>
+            <ProgressStatsBar
+              value={
+                isNaN(parseFloat(percentageSell())) ? 0 : initial - remaining
+              }
+              maxValue={isNaN(parseFloat(percentageSell())) ? 100 : initial}
+            />
+          </div>
+          {/* <div class="containered">
               <div class="progress2 progress-moved">
                 <div class="progress-bar2"></div>
               </div>
             </div> */}
-            <Divider />
-            <Box mt={2}>
-              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={13}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Start Date:
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  className={classes.para}
-                  textAlign="center"
-                  fontWeight={600}
-                  ml={1}
-                  fontSize={14}
-                >
-                  {item.startDate}
-                </Typography>
-              </Box>
-              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={13}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Total NFTs on Sell
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  className={classes.para}
-                  textAlign="center"
-                  fontWeight={600}
-                  ml={1}
-                  fontSize={14}
-                >
-                  {item.quantity}
-                </Typography>
-              </Box>
-              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={13}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Remaining Quantity
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontWeight={600}
-                  ml={1}
-                  fontSize={14}
-                >
-                  {!loading ? remaining : "--"}
-                </Typography>
-              </Box>
-              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={13}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Price range
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  className={classes.para}
-                  textAlign="center"
-                  fontWeight={600}
-                  ml={1}
-                  fontSize={14}
-                >
-                  {item.priceRange} {item.currency}
-                </Typography>
-              </Box>
-              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={13}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Network
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontWeight={600}
-                  ml={1}
-                  fontSize={14}
-                >
-                  {item.network}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box
-              my={2}
-              display={"flex"}
-              flexDirection="row"
-              justifyContent={"space-around"}
-              style={{
-                border: "1px solid #4A3F55",
-                padding: 5,
-                borderRadius: 20,
-              }}
-            >
-              <Box
-                display={"flex"}
-                flexDirection="column"
-                justifyContent={"center"}
-                alignItems="center"
-                mt={2}
+          <Divider />
+          <Box mt={2}>
+            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={13}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
               >
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontSize={14}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  Total raise
-                </Typography>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={32}
-                  fontWeight={600}
-                  ml={1}
-                  color="#FFFFFF"
-                >
-                  ${item.totalRaiseAmount}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontSize={14}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  <span style={{ color: "#E0077D" }}>IN BNB</span>
-                </Typography>
-              </Box>
-              <Box
-                display={"flex"}
-                flexDirection="column"
-                justifyContent={"center"}
-                alignItems="center"
-                mt={2}
-              >
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontSize={14}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  NFT Price
-                </Typography>
-                <Typography
-                  variant="h6"
-                  textAlign="center"
-                  fontSize={32}
-                  fontWeight={600}
-                  ml={1}
-                  color="#FFFFFF"
-                >
-                  ${item.minPrice}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  textAlign="center"
-                  fontSize={14}
-                  fontWeight={600}
-                  ml={1}
-                  color="#919191"
-                >
-                  <span style={{ color: "#E0077D" }}>PER NFT</span>
-                </Typography>
-              </Box>
-            </Box>
+                Start Date:
+              </Typography>
 
-            <Box
-              px={2}
-              mt={2}
-              className="d-flex justify-content-center"
-              style={{ width: "100%" }}
-            >
-              <Link to={"/view-ino"}>
-                {" "}
-                <Button
-                  style={{
-                    borderRadius: 10,
-                    background: "#521B8F",
-                    padding: "9px 20px 9px 20px",
-                    color: "white",
-                    minWidth: 240,
-                  }}
-                >
-                  View
-                </Button>
-              </Link>{" "}
+              <Typography
+                variant="body2"
+                className={classes.para}
+                textAlign="center"
+                fontWeight={600}
+                ml={1}
+                fontSize={14}
+              >
+                {item.startDate}
+              </Typography>
+            </Box>
+            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={13}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                Total NFTs on Sell
+              </Typography>
+
+              <Typography
+                variant="body2"
+                className={classes.para}
+                textAlign="center"
+                fontWeight={600}
+                ml={1}
+                fontSize={14}
+              >
+                {item.quantity}
+              </Typography>
+            </Box>
+            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={13}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                Remaining Quantity
+              </Typography>
+
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontWeight={600}
+                ml={1}
+                fontSize={14}
+              >
+                {!loading ? remaining : "--"}
+              </Typography>
+            </Box>
+            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={13}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                Price range
+              </Typography>
+
+              <Typography
+                variant="body2"
+                className={classes.para}
+                textAlign="center"
+                fontWeight={600}
+                ml={1}
+                fontSize={14}
+              >
+                {item.priceRange} {item.currency}
+              </Typography>
+            </Box>
+            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={13}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                Network
+              </Typography>
+
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontWeight={600}
+                ml={1}
+                fontSize={14}
+              >
+                {item.network}
+              </Typography>
             </Box>
           </Box>
-        )}
+
+          <Box
+            my={2}
+            display={"flex"}
+            flexDirection="row"
+            justifyContent={"space-around"}
+            style={{
+              border: "1px solid #4A3F55",
+              padding: 5,
+              borderRadius: 20,
+            }}
+          >
+            <Box
+              display={"flex"}
+              flexDirection="column"
+              justifyContent={"center"}
+              alignItems="center"
+              mt={2}
+            >
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontSize={14}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                Total raise
+              </Typography>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={32}
+                fontWeight={600}
+                ml={1}
+                color="#FFFFFF"
+              >
+                ${item.totalRaiseAmount}
+              </Typography>
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontSize={14}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                <span style={{ color: "#E0077D" }}>IN BNB</span>
+              </Typography>
+            </Box>
+            <Box
+              display={"flex"}
+              flexDirection="column"
+              justifyContent={"center"}
+              alignItems="center"
+              mt={2}
+            >
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontSize={14}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                NFT Price
+              </Typography>
+              <Typography
+                variant="h6"
+                textAlign="center"
+                fontSize={32}
+                fontWeight={600}
+                ml={1}
+                color="#FFFFFF"
+              >
+                ${item.minPrice}
+              </Typography>
+              <Typography
+                variant="body2"
+                textAlign="center"
+                fontSize={14}
+                fontWeight={600}
+                ml={1}
+                color="#919191"
+              >
+                <span style={{ color: "#E0077D" }}>PER NFT</span>
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            px={2}
+            mt={2}
+            className="d-flex justify-content-center"
+            style={{ width: "100%" }}
+          >
+            <Link to={`/view-ino/${item.poolId}`}>
+              {" "}
+              <Button
+                style={{
+                  borderRadius: 10,
+                  background: "#521B8F",
+                  padding: "9px 20px 9px 20px",
+                  color: "white",
+                  minWidth: 240,
+                }}
+              >
+                View
+              </Button>
+            </Link>{" "}
+          </Box>
+        </Box>
       </div>
     </Box>
   );

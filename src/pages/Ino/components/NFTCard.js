@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import useActiveWeb3React from "hooks/useActiveWeb3React";
+import packagesEth from "./../data/packagesEth";
+import packagesBsc from "../data/packagesBsc";
+import {
+  getPackageDetails,
+  getRemainINOToken,
+  userPurchaseDetails,
+} from "actions/inoActions";
+import Timer from "common/Timer";
+import ProgressStatsBar from "common/ProgressStatsBar";
 
 const useStyles = makeStyles((theme) => ({
   filterCard: {
@@ -82,235 +92,401 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NFTCard() {
+export default function NFTCard({ packageId, endTime, poolDetailsLocal }) {
   const classes = useStyles();
   const theme = useTheme();
 
+  const { active, account, chainId } = useActiveWeb3React();
+
+  const actualPackages =
+    poolDetailsLocal.currency === "ETH" ? packagesEth : packagesBsc;
+
+  const [remainToken, setRemainToken] = useState(null);
+  const [packageDetail, setPackageDetail] = useState(null);
+  const [userPurchaseDetail, setUserPurchaseDetail] = useState(null);
+  const [isClaimed, setIsClaimed] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [purchaseCase, setPurchaseCase] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [end, setEnd] = useState(false);
+  const [quantityBought, setQuantityBought] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [refetch, setRefetch] = useState(0);
+
+  useEffect(async () => {
+    let packageResponse = await getPackageDetails(
+      packageId,
+      poolDetailsLocal.chainIds
+    );
+    setPackageDetail(packageResponse);
+
+    let remainTokenResponse = await getRemainINOToken(
+      packageId,
+      poolDetailsLocal.chainIds
+    );
+    setRemainToken(remainTokenResponse);
+    if (account) {
+      let userPurchaseResult = await userPurchaseDetails(
+        packageId,
+        account,
+        poolDetailsLocal.chainIds
+      );
+      setQuantityBought(parseInt(userPurchaseResult.PurchasedItemCount));
+      setUserPurchaseDetail(userPurchaseResult);
+      setIsPurchased(parseInt(userPurchaseResult.PurchasedItemCount) > 0);
+      setIsClaimed(userPurchaseResult.IsClaimed);
+
+      let timeToEnd = endTime * 1000 - Date.now();
+      if (timeToEnd < 0) {
+        setEnd(true);
+      }
+      setLoading(false);
+    }
+  }, [active, account, refetch]);
+
+  const disablePurchase = () => {
+    if (actualPackages[packageId]) {
+      let date = actualPackages[packageId].startDate;
+
+      const date1 = new Date(date).getTime(); // Begin Time
+      const date2 = Date.now(); // Current Time
+
+      const diffTime = date1 - date2;
+
+      if (diffTime > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  const PurchasePopup = () => {
+    setPopup(true);
+    setPurchaseCase(1);
+  };
+
+  const progressPercentage = () => {
+    if (!packageDetail) {
+      return "--";
+    }
+    return parseFloat(
+      (packageDetail.TotalSoldCount * 100) / packageDetail.TotalItemCount
+    ).toFixed(2);
+  };
   return (
     <Box>
       <div className={classes.filterCard}>
-        <Box pt={0} px={3}>
-          <Box className={classes.imageWrapper}></Box>
-          <Box>
-            <Typography
-              variant="h6"
-              className={classes.cardTitle}
-              textAlign="center"
-              fontWeight={600}
+        {poolDetailsLocal && (
+          <Box pt={0} px={3}>
+            <div
+              style={{
+                height: 160,
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                borderRadius: 15,
+              }}
             >
-              FOTA NFTs
-            </Typography>
-            <Typography
-              variant="h6"
-              className={classes.subheading}
-              textAlign="center"
-              fontWeight={600}
-            >
-              Fight Of The Ages NFTs
-            </Typography>
-            <Box display={"flex"} justifyContent="center" my={2}>
-              <div
-                style={{
-                  borderRadius: 10,
-                  background: "#521B8F",
-                  padding: "5px 20px 5px 20px",
-                  color: "white",
-                  width: "fit-content",
-                  fontSize: 14,
-                }}
+              <img
+                src={actualPackages[packageId].image}
+                style={{ height: 155, width: "fit-content", borderRadius: 15 }}
+              />
+            </div>
+            <Box>
+              <Typography
+                variant="h6"
+                className={classes.cardTitle}
+                textAlign="center"
+                fontWeight={600}
               >
-                Owned NFTs: <strong>01</strong>
+                {actualPackages[packageId].title}
+              </Typography>
+              <Typography
+                variant="h6"
+                className={classes.subheading}
+                textAlign="center"
+                fontWeight={600}
+              >
+                {actualPackages[packageId].poolName}
+              </Typography>
+              {quantityBought > 0 && (
+                <Box display={"flex"} justifyContent="center" mb={2}>
+                  <div
+                    style={{
+                      borderRadius: 10,
+                      background: "#521B8F",
+                      padding: "5px 20px 5px 20px",
+                      color: "white",
+                      width: "fit-content",
+                      fontSize: 14,
+                    }}
+                  >
+                    Owned NFTs: <strong>{quantityBought}</strong>
+                  </div>
+                </Box>
+              )}
+            </Box>
+            <Box mt={1}>
+              {actualPackages[packageId] && (
+                <Typography
+                  variant="body2"
+                  textAlign="left"
+                  fontSize={13}
+                  fontWeight={400}
+                  color="#f9f9f9"
+                >
+                  {actualPackages[packageId].description}
+                </Typography>
+              )}
+            </Box>
+
+            <Typography
+              variant="body2"
+              textAlign="left"
+              fontWeight={400}
+              fontSize={12}
+              color="#bdbdbd"
+              pb={1}
+              mt={2}
+            >
+              Progress ({progressPercentage()}%)
+            </Typography>
+
+            <div htmlFor="power" className={classes.powerWrapper}>
+              <ProgressStatsBar
+                value={packageDetail ? packageDetail.TotalSoldCount : 0}
+                maxValue={packageDetail ? packageDetail.TotalItemCount : 100}
+              />
+            </div>
+
+            <Box display={"flex"} justifyContent="space-between">
+              <Typography
+                variant="body2"
+                textAlign="left"
+                fontWeight={400}
+                fontSize={12}
+                color="#bdbdbd"
+                pb={1}
+              >
+                0
+              </Typography>
+              <Typography
+                variant="body2"
+                textAlign="left"
+                fontWeight={400}
+                fontSize={12}
+                color="#bdbdbd"
+                pb={1}
+              >
+                Max: {packageDetail && packageDetail.TotalItemCount}
+              </Typography>
+            </Box>
+            <Divider />
+            <Box mt={2}>
+              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+                <Typography
+                  variant="h6"
+                  textAlign="center"
+                  fontSize={13}
+                  fontWeight={600}
+                  ml={1}
+                  color="#919191"
+                >
+                  Price per NFT
+                </Typography>
+                {actualPackages[packageId] && (
+                  <Typography
+                    variant="body2"
+                    className={classes.para}
+                    textAlign="right"
+                    fontWeight={600}
+                    fontSize={14}
+                    ml={1}
+                    width={"fit-content"}
+                  >
+                    {actualPackages[packageId].price}{" "}
+                    {actualPackages[packageId].currency}
+                  </Typography>
+                )}
+              </Box>
+              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+                <Typography
+                  variant="h6"
+                  textAlign="left"
+                  fontSize={13}
+                  fontWeight={600}
+                  ml={1}
+                  color="#919191"
+                  width={"fit-content"}
+                  minWidth={70}
+                >
+                  Remaining
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  className={classes.para}
+                  textAlign="right"
+                  fontWeight={600}
+                  fontSize={14}
+                  ml={1}
+                  width={"fit-content"}
+                >
+                  {remainToken}
+                </Typography>
+              </Box>
+              <Box display={"flex"} justifyContent={"space-between"} mb={1}>
+                <Typography
+                  variant="h6"
+                  textAlign="left"
+                  fontSize={13}
+                  fontWeight={600}
+                  ml={1}
+                  color="#919191"
+                  width={"fit-content"}
+                  minWidth={70}
+                >
+                  Network
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  className={classes.para}
+                  textAlign="right"
+                  fontWeight={600}
+                  fontSize={14}
+                  ml={1}
+                  width={"fit-content"}
+                >
+                  {poolDetailsLocal.network}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box
+              px={2}
+              mt={2}
+              className="d-flex justify-content-center"
+              style={{ width: "100%" }}
+            >
+              <div className="mt-3 px-2">
+                {active && (
+                  <div className="text-center mt-3">
+                    {poolDetailsLocal.chainIds.includes(chainId) ? (
+                      <div>
+                        {disablePurchase() ? (
+                          <div className="mt-3 px-2">
+                            <div className="text-center mt-3">
+                              <div className="mt-1">
+                                <div
+                                  style={{
+                                    color: "white",
+                                    paddingBottom: 4,
+                                  }}
+                                >
+                                  Sell starts in
+                                </div>
+                                <Timer
+                                  endTime={actualPackages[packageId].startDate}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="mt-2 px-3">
+                            {!end && (
+                              <Button
+                                style={{
+                                  borderRadius: 10,
+                                  background: "#521B8F",
+                                  padding: "9px 20px 9px 20px",
+                                  color: "white",
+                                  minWidth: 240,
+                                  textTransform: "none",
+                                }}
+                                onClick={PurchasePopup}
+                              >
+                                Purchase Now
+                              </Button>
+                            )}
+                          </div>
+                        )}
+
+                        {end && !isClaimed && !isPurchased && (
+                          <Button
+                            variant="contained"
+                            style={{
+                              borderRadius: 10,
+                              background: "rgba(82, 27, 143,0.4)",
+                              padding: "9px 20px 9px 20px",
+                              color: "white",
+                              minWidth: 240,
+                              textTransform: "none",
+                            }}
+                          >
+                            Sell Ended
+                          </Button>
+                        )}
+                        {end && isPurchased && (
+                          <Link to="/profile">
+                            <Button
+                              variant="contained"
+                              style={{
+                                borderRadius: 10,
+                                background: "#521B8F",
+                                padding: "9px 20px 9px 20px",
+                                color: "white",
+                                minWidth: 240,
+                                textTransform: "none",
+                              }}
+                            >
+                              View Your NFTs
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {" "}
+                        <Button
+                          style={{
+                            borderRadius: 10,
+                            background: "rgba(82, 27, 143,0.4)",
+                            padding: "9px 20px 9px 20px",
+                            color: "white",
+                            minWidth: 240,
+                            textTransform: "none",
+                          }}
+                        >
+                          Wrong Network
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {!active && (
+                  <div className="text-center mt-3">
+                    <Button
+                      style={{
+                        borderRadius: 10,
+                        background: "#521B8F",
+                        padding: "9px 20px 9px 20px",
+                        color: "white",
+                        minWidth: 240,
+                        textTransform: "none",
+                      }}
+                    >
+                      Connect Wallet First
+                    </Button>
+                  </div>
+                )}
               </div>
             </Box>
           </Box>
-          <Box>
-            <Typography
-              variant="body2"
-              textAlign="left"
-              fontSize={13}
-              fontWeight={400}
-              color="#f9f9f9"
-            >
-              Premium class NFTs to boost character level and booster card in
-              game.
-            </Typography>
-          </Box>
-
-          <Typography
-            variant="body2"
-            textAlign="left"
-            fontWeight={400}
-            fontSize={12}
-            color="#bdbdbd"
-            pb={1}
-            mt={2}
-          >
-            Progress (30%)
-          </Typography>
-          <div class="containered">
-            <div class="progress2 progress-moved">
-              <div class="progress-bar2"></div>
-            </div>
-          </div>
-          <Box display={"flex"} justifyContent="space-between">
-            <Typography
-              variant="body2"
-              textAlign="left"
-              fontWeight={400}
-              fontSize={12}
-              color="#bdbdbd"
-              pb={1}
-            >
-              0
-            </Typography>
-            <Typography
-              variant="body2"
-              textAlign="left"
-              fontWeight={400}
-              fontSize={12}
-              color="#bdbdbd"
-              pb={1}
-            >
-              Max: 50
-            </Typography>
-          </Box>
-          <Divider />
-          <Box mt={2}>
-            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-              <Typography
-                variant="h6"
-                textAlign="center"
-                fontSize={13}
-                fontWeight={600}
-                ml={1}
-                color="#919191"
-              >
-                End Date:
-              </Typography>
-
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="center"
-                fontWeight={700}
-                ml={1}
-              >
-                11 June,2022 2PM UTC
-              </Typography>
-            </Box>
-            {/* <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-              <Typography
-                variant="h6"
-                textAlign="center"
-                fontSize={13}
-                fontWeight={600}
-                ml={1}
-                color="#919191"
-              >
-                Total NFTs on Sell
-              </Typography>
-
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="center"
-                fontWeight={700}
-                ml={1}
-              >
-                50
-              </Typography>
-            </Box>
-            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-              <Typography
-                variant="h6"
-                textAlign="center"
-                fontSize={13}
-                fontWeight={600}
-                ml={1}
-                color="#919191"
-              >
-                Remaining Quantity
-              </Typography>
-
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="center"
-                fontWeight={700}
-                ml={1}
-              >
-                40
-              </Typography>
-            </Box> */}
-            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-              <Typography
-                variant="h6"
-                textAlign="center"
-                fontSize={13}
-                fontWeight={600}
-                ml={1}
-                color="#919191"
-              >
-                Price per NFT
-              </Typography>
-
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="center"
-                fontWeight={700}
-                ml={1}
-              >
-                0.25 BNB
-              </Typography>
-            </Box>
-            <Box display={"flex"} justifyContent={"space-between"} mb={1}>
-              <Typography
-                variant="h6"
-                textAlign="center"
-                fontSize={13}
-                fontWeight={600}
-                ml={1}
-                color="#919191"
-              >
-                Network
-              </Typography>
-
-              <Typography
-                variant="body2"
-                className={classes.para}
-                textAlign="center"
-                fontWeight={700}
-                ml={1}
-              >
-                BSC
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box
-            px={2}
-            mt={2}
-            className="d-flex justify-content-center"
-            style={{ width: "100%" }}
-          >
-            <Link to={"/view-ino"}>
-              {" "}
-              <Button
-                style={{
-                  borderRadius: 10,
-                  background: "#521B8F",
-                  padding: "9px 20px 9px 20px",
-                  color: "white",
-                  minWidth: 240,
-                  textTransform: "none",
-                }}
-              >
-                Purchase Now
-              </Button>
-            </Link>{" "}
-          </Box>
-        </Box>
+        )}
       </div>
     </Box>
   );

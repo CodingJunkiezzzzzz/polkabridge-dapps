@@ -57,7 +57,7 @@ function App() {
                         path="/purchase-launchpad"
                         element={<LaunchpadPurchase />}
                       />
-                      <Route path="/view-ino" element={<InoDetails />} />
+                      <Route path="/view-ino/:id" element={<InoDetails />} />
                     </Routes>
                   </Grid>
                 </Grid>
