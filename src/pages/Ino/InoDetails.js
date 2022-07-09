@@ -23,7 +23,7 @@ import {
   Verified,
   Web,
 } from "@mui/icons-material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import NFTCard from "./components/NFTCard";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import localPools from "./data/poolsData";
@@ -153,6 +153,7 @@ export default function InoDetails() {
   const theme = useTheme();
   const { id } = useParams();
   const { active, account, chainId } = useActiveWeb3React();
+  const navigate = useNavigate();
 
   const [saleStatus, setSaleStatus] = useState(true);
   const [visibleAbout, setVisibleAbout] = useState(false);
@@ -172,6 +173,15 @@ export default function InoDetails() {
     <Box>
       {poolDetailsLocal && (
         <Box className={classes.background}>
+          <Typography
+            variant="body2"
+            mb={2}
+            onClick={() => navigate(-1)}
+            style={{ cursor: "pointer" }}
+            fontWeight={600}
+          >
+            {"< "} Back
+          </Typography>
           <Box
             display="flex"
             flexDirection={"row"}
