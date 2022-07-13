@@ -105,7 +105,6 @@ export default function InoCard({ item }) {
 
   const { active, account, chainId } = useActiveWeb3React();
 
-  const [poolDetails, setPoolDetails] = useState(null);
   const [isWhitelist, setIsWhitelist] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [initial, setInitial] = useState(0);
@@ -113,15 +112,18 @@ export default function InoCard({ item }) {
 
   useEffect(async () => {
     setLoading(true);
+
     if (!item) {
-      return;
+      return 0;
     }
+
     let activeChainIds = item.chainIds;
-    let poolId = item.poolId;
+    let poolId = item.id;
     let remainingQuantity = await getRemainingQuantityOfPool(
       poolId,
       activeChainIds
     );
+
     let initialQuantity = await getInitialBalanceOfPool(poolId, activeChainIds);
 
     if (active) {
@@ -210,7 +212,7 @@ export default function InoCard({ item }) {
             fontWeight={400}
             fontSize={14}
             color="#bdbdbd"
-            pb={1}
+            pt={2}
           >
             Progress (
             {isNaN(parseFloat(percentageSell())) ? "--" : percentageSell()}%)
@@ -391,7 +393,9 @@ export default function InoCard({ item }) {
                 ml={1}
                 color="#919191"
               >
-                <span style={{ color: "#E0077D" }}>IN BNB</span>
+                <span style={{ color: "#E0077D" }}>
+                  IN {item.currency.toUpperCase()}
+                </span>
               </Typography>
             </Box>
             <Box
@@ -409,7 +413,7 @@ export default function InoCard({ item }) {
                 ml={1}
                 color="#919191"
               >
-                NFT Price
+                Min price
               </Typography>
               <Typography
                 variant="h6"

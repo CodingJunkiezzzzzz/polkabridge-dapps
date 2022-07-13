@@ -15,22 +15,24 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 10,
     display: "grid",
     placeItems: "center",
-    background: "rgba(255,255,255,0.01)",
+    background: "rgba(0,0,0,0.2)",
   },
   container: {
     width: "100%",
-    height: "max-content",
-    height: 400,
-    minHeight: 350,
-    maxWidth: 500,
-    position: "relative",
-    background: "linear-gradient(180deg, #FFFFFF 0%, #D9E8FC 100%)",
-    border: "10px solid #6A55EA",
+    height: "100%",
     padding: 10,
-    borderRadius: 4,
+    minHeight: 360,
+    maxHeight: 400,
+    maxWidth: 540,
+    position: "relative",
+    backgroundColor: "#000000",
+    border: "2px solid #7825D5",
+    display: "flex",
+    alignItems: "center",
     zIndex: 11,
+    borderRadius: 16,
     [theme.breakpoints.down("md")]: {
-      padding: "25px 5%",
+      border: "10px solid #D1FE1D",
       width: "100%",
       maxWidth: "95%",
       height: 350,
@@ -39,33 +41,14 @@ const useStyles = makeStyles((theme) => ({
       height: "max-content",
     },
   },
-  inputWrapper: {
-    padding: 10,
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  input: {
-    backgroundColor: "#ffffff",
-    border: "1px solid #757575",
-    borderRadius: 18,
-    width: "80%",
-    padding: 6,
-    outline: "none",
-    color: "#212121",
-    textAlign: "left",
-    paddingLeft: 10,
-    paddingTop: 8,
-    paddingBottom: 8,
-    fontSize: 14,
-    fontFamily: "Karla",
-  },
+
   heading: {
-    color: "#212121",
+    color: "#f9f9f9",
     fontWeight: 700,
     fontSize: 24,
     letterSpacing: "0.02em",
     textAlign: "center",
+    marginTop: 20,
     marginBottom: 14,
     [theme.breakpoints.down("md")]: {
       paddingTop: 5,
@@ -74,11 +57,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   para: {
-    color: "#212121",
+    color: "#e5e5e5",
     textAlign: "center",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 400,
     lineHeight: 1.5,
+    width: "80%",
     [theme.breakpoints.down("md")]: {
       fontSize: 13,
     },
@@ -109,8 +93,9 @@ const useStyles = makeStyles((theme) => ({
   svgImage: {
     width: "100%",
     height: "fit-content",
-    maxHeight: 160,
+    maxHeight: 130,
     objectFit: "contain",
+    marginBottom: 20,
     [theme.breakpoints.down("md")]: {
       maxHeight: 100,
     },
@@ -142,108 +127,97 @@ const TxPopup = ({ popupActive, disablePopup, txCase }) => {
   return (
     <div className={classes.background}>
       <div className={classes.container}>
-        <div className="d-flex justify-content-end">
-          <IconButton>
-            <Close style={{ color: "#212121", fontSize: 28 }} />
-          </IconButton>
+        <div className="h-100 w-100">
+          <div className="d-flex justify-content-end">
+            <IconButton>
+              <Close style={{ color: "#f9f9f9", fontSize: 28 }} />
+            </IconButton>
+          </div>
+          {txCase === 1 && (
+            <div className="mb-sm-4" align="center">
+              <div className="my-auto">
+                <div className="text-center">
+                  <img src="/img/wait.png" className={classes.svgImage} />
+                </div>
+              </div>
+
+              <div className="my-auto">
+                <h4 className={classes.heading}>Waiting for confirmation</h4>
+                <h6 className={classes.para}>
+                  PLEASE CONFIRM THIS TRANSACTION <br />
+                  INTO METAMASK POPUPUP.
+                </h6>
+              </div>
+            </div>
+          )}
+          {txCase === 2 && (
+            <div className=" mb-sm-4" align="center">
+              <div className="my-auto">
+                <div className="text-center">
+                  <img src="/img/submit.png" className={classes.svgImage} />
+                </div>
+              </div>
+              <div className="my-auto">
+                <h4 className={classes.heading}>Transaction Submitted</h4>
+                <h6 className={classes.para}>
+                  TRANSACTION HAS BEEN SUBMITTED AND <br />
+                  WAITING FOR CONFIRMATION.
+                </h6>
+              </div>
+            </div>
+          )}
+          {txCase === 3 && (
+            <div className="mb-sm-4" align="center">
+              <div className="my-auto">
+                <div className="text-center">
+                  <img src="/img/success.png" className={classes.svgImage} />
+                </div>
+              </div>
+              <div className="my-auto">
+                <h4 className={classes.heading}>Transaction Successful!</h4>
+                <h6 className={classes.para}>
+                  GREAT! TRANSACTION HAS BEEN CONFIRMED SUCCESSFULLY.
+                </h6>
+              </div>
+            </div>
+          )}
+
+          {txCase === 4 && (
+            <div className=" mb-sm-4" align="center">
+              <div className="my-auto">
+                <div className="text-center">
+                  <img src="/img/fail.png" className={classes.svgImage} />
+                </div>
+              </div>
+              <div className="my-auto">
+                <h4 className={classes.heading}>Transaction Failed!</h4>
+                <h6 className={classes.para}>
+                  WE HAVE ENCOUNTERED AN ERROR IN THIS TRANSACTION. PLEASE TRY
+                  AGAIN.
+                </h6>
+              </div>
+            </div>
+          )}
+
+          {txCase === 5 && (
+            <div className="mb-sm-4" align="center">
+              <div className="my-auto">
+                <div className="text-center">
+                  <img
+                    src="/img/success_purchase.png"
+                    className={classes.svgImage}
+                  />
+                </div>
+              </div>
+              <div className="my-auto">
+                <h4 className={classes.heading}>Transaction Successful!</h4>
+                <h6 className={classes.para}>
+                  GREAT! TRANSACTION HAS BEEN CONFIRMED SUCCESSFULLY.
+                </h6>
+              </div>
+            </div>
+          )}
         </div>
-        {txCase === 1 && (
-          <div
-            className="d-flex flex-column align-items-center justify-content-center mb-sm-4"
-            align="center"
-            style={{
-              height: "75%",
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <div className="my-auto">
-              <div className="text-center">
-                <img src="/images/waiting.png" className={classes.svgImage} />
-              </div>
-            </div>
-
-            <div className="my-auto">
-              <h4 className={classes.heading}>Waiting for confirmation</h4>
-              <h6 className={classes.para}>
-                PLEASE CONFIRM THIS TRANSACTION <br />
-                INTO METAMASK POPUPUP.
-              </h6>
-            </div>
-          </div>
-        )}
-        {txCase === 2 && (
-          <div
-            className="d-flex flex-column align-items-center justify-content-center mb-sm-4"
-            align="center"
-            style={{
-              height: "75%",
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <div className="my-auto">
-              <div className="text-center">
-                <img src="/images/submit.png" className={classes.svgImage} />
-              </div>
-            </div>
-            <div className="my-auto">
-              <h4 className={classes.heading}>Transaction Submitted</h4>
-              <h6 className={classes.para}>
-                TRANSACTION HAS BEEN SUBMITTED AND <br />
-                WAITING FOR CONFIRMATION.
-              </h6>
-            </div>
-          </div>
-        )}
-        {txCase === 3 && (
-          <div
-            className="d-flex flex-column align-items-center justify-content-center mb-sm-4"
-            align="center"
-            style={{
-              height: "75%",
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <div className="my-auto">
-              <div className="text-center">
-                <img src="/images/success.png" className={classes.svgImage} />
-              </div>
-            </div>
-            <div className="my-auto">
-              <h4 className={classes.heading}>Transaction Successful!</h4>
-              <h6 className={classes.para}>
-                GREAT! TRANSACTION HAS BEEN CONFIRMED SUCCESSFULLY.
-              </h6>
-            </div>
-          </div>
-        )}
-
-        {txCase === 4 && (
-          <div
-            className="d-flex flex-column align-items-center justify-content-center mb-sm-4"
-            align="center"
-            style={{
-              height: "75%",
-              width: "100%",
-              margin: "0 auto",
-            }}
-          >
-            <div className="my-auto">
-              <div className="text-center">
-                <img src="/images/failed.png" className={classes.svgImage} />
-              </div>
-            </div>
-            <div className="my-auto">
-              <h4 className={classes.heading}>Transaction Failed!</h4>
-              <h6 className={classes.para}>
-                WE HAVE ENCOUNTERED AN ERROR IN THIS TRANSACTION. PLEASE TRY
-                AGAIN.
-              </h6>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

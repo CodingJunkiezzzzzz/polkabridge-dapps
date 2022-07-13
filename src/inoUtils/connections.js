@@ -1,6 +1,7 @@
 import constants from "./constants";
 import inoAbi from "./inoABI.json";
 import Web3 from "web3";
+import { currentConnection } from "./../constants/index";
 
 let ethContractAddress = "0x6AE737c28661D9A37ffC78Ac3e926F97b2e5d876";
 let rinkebyContractAddress = "0x14c3f86a10DDBc9Df9914dACfaEad9f859914B62";
@@ -15,7 +16,7 @@ export const inoContract = async (chainIds) => {
   const abi = inoAbi;
   let chainId;
   if (chainIds) {
-    chainId = constants.net === 0 ? chainIds[0] : chainIds[1];
+    chainId = currentConnection === "mainnet" ? chainIds[0] : chainIds[1];
   } else {
     chainId = 1;
   }
@@ -74,7 +75,7 @@ export const getCurrentConnection = async (abi, contractAddress, chainId) => {
   }
 
   const web3 = isMetaMaskInstalled()
-    ? new Web3(new Web3.providers.HttpProvider(currentRPC))
+    ? new Web3(window.ethereum)
     : new Web3(new Web3.providers.HttpProvider(currentRPC));
   let temp = new web3.eth.Contract(abi, contractAddress);
 

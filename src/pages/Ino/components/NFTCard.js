@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { Box, Button, Divider, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  Slide,
+  Backdrop,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import packagesEth from "./../data/packagesEth";
@@ -12,6 +21,14 @@ import {
 } from "actions/inoActions";
 import Timer from "common/Timer";
 import ProgressStatsBar from "common/ProgressStatsBar";
+import TxPopup from "common/popups/TxPopup";
+import Web3 from "web3";
+import { inoContract } from "inoUtils/connections";
+import PurchasePopup from "./PurchasePopup";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   filterCard: {
@@ -162,7 +179,7 @@ export default function NFTCard({ packageId, endTime, poolDetailsLocal }) {
     }
   };
 
-  const PurchasePopup = () => {
+  const handlePurchasePopup = () => {
     setPopup(true);
     setPurchaseCase(1);
   };
@@ -175,6 +192,53 @@ export default function NFTCard({ packageId, endTime, poolDetailsLocal }) {
       (packageDetail.TotalSoldCount * 100) / packageDetail.TotalItemCount
     ).toFixed(2);
   };
+
+  const resetPopup = () => {
+    setPopup(false);
+    setPurchaseCase(0);
+  };
+
+  const handlePurchase = async () => {
+    setPopup(true);
+    setPurchaseCase(1);
+
+    // Contract instance based on Chain Id
+    let contractInstance = await inoContract(poolDetailsLocal.chainIds);
+
+    // Price of one item in ETH
+    let priceInEth =
+      1 / parseFloat(Web3.utils.fromWei(packageDetail.RatePerETH, "ether"));
+
+    //Total amount of all quantity
+    let totalAmount = parseInt(quantity) * priceInEth;
+    console.log(totalAmount);
+
+    let finalValue = Web3.utils.toWei(totalAmount.toString(), "ether");
+    const response = await contractInstance.methods
+      .purchaseINO(packageId, quantity)
+      .send(
+        {
+          from: account,
+          value: finalValue.toString(),
+        },
+        async function (error, transactionHash) {
+          if (transactionHash) {
+            setPurchaseCase(2);
+          } else {
+            setPurchaseCase(4);
+          }
+        }
+      )
+      .on("receipt", async function (receipt) {
+        setPurchaseCase(5);
+        setRefetch(refetch + 1);
+      })
+      .on("error", async function (error) {
+        console.log(error);
+        setPurchaseCase(4);
+      });
+  };
+
   return (
     <Box>
       <div className={classes.filterCard}>
@@ -406,7 +470,7 @@ export default function NFTCard({ packageId, endTime, poolDetailsLocal }) {
                                   minWidth: 240,
                                   textTransform: "none",
                                 }}
-                                onClick={PurchasePopup}
+                                onClick={handlePurchasePopup}
                               >
                                 Purchase Now
                               </Button>
@@ -485,6 +549,52 @@ export default function NFTCard({ packageId, endTime, poolDetailsLocal }) {
                 )}
               </div>
             </Box>
+
+            <Dialog
+              className={classes.modal}
+              open={popup}
+              TransitionComponent={Transition}
+              keepMounted={false}
+              onClose={() => setPopup(false)}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+              PaperProps={{
+                style: {
+                  borderRadius: 10,
+                  backgroundColor: "black",
+                  border: "4px solid #212121",
+                },
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "black",
+                  borderRadius: 3,
+                  overflowX: "hidden",
+                }}
+              >
+                {purchaseCase === 1 && (
+                  <PurchasePopup
+                    purchasePackage={handlePurchase}
+                    currentPackage={actualPackages[packageId]}
+                    resetPopup={resetPopup}
+                    setQuantity={setQuantity}
+                    maxPurchase={
+                      packageDetail.TotalItemCount -
+                      packageDetail.TotalSoldCount
+                    }
+                    minQuantity={packageDetail.MinimumTokenSoldout}
+                  />
+                )}
+
+                {purchaseCase > 1 && (
+                  <TxPopup txCase={purchaseCase} resetPopup={resetPopup} />
+                )}
+              </div>
+            </Dialog>
           </Box>
         )}
       </div>

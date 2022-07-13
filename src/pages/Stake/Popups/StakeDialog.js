@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
-import Dialog from "@material-ui/core/Dialog";
 import {
   formatCurrency,
   fromWei,
@@ -23,6 +22,7 @@ import {
   Typography,
   Button,
   useTheme,
+  Dialog,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
