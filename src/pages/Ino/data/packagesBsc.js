@@ -13,6 +13,7 @@ let packagesBsc = {
     quantity: "50",
     claimType: "MANUAL",
     claimTime: "June 30, 2022 14:00:00 UTC",
+    claimUrl: "https://ino.fota.io/",
   },
   2: {
     id: 2,
@@ -28,6 +29,7 @@ let packagesBsc = {
     quantity: "50",
     claimType: "MANUAL",
     claimTime: "June 30, 2022 14:00:00 UTC",
+    claimUrl: "https://ino.fota.io/",
   },
 
   3: {
@@ -44,6 +46,7 @@ let packagesBsc = {
     quantity: "60",
     claimType: "MANUAL",
     claimTime: "June 30, 2022 14:00:00 UTC",
+    claimUrl: "https://ino.fota.io/",
   },
   4: {
     id: 4,
@@ -60,6 +63,7 @@ let packagesBsc = {
     quantity: "60",
     claimType: "MANUAL",
     claimTime: "June 30, 2022 14:00:00 UTC",
+    claimUrl: "https://ino.fota.io/",
   },
   5: {
     id: 5,
@@ -76,6 +80,7 @@ let packagesBsc = {
     quantity: "70",
     claimType: "MANUAL",
     claimTime: "June 30, 2022 14:00:00 UTC",
+    claimUrl: "https://ino.fota.io/",
   },
 };
 export default packagesBsc;

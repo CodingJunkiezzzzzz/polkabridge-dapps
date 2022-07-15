@@ -360,7 +360,10 @@ const PurchasedNftCard = ({ packageId, chainIds, currency }) => {
                           </Button>
                         )}
                         {packages[packageId].claimType === "MANUAL" && (
-                          <a href="https://ino.fota.io/" target="_blank">
+                          <a
+                            href={actualPackages[packageId].claimUrl}
+                            target="_blank"
+                          >
                             <Button
                               variant="contained"
                               style={{

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { Box, Divider, Grid, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Container } from "@mui/system";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import { getUserPurchasedPackages } from "actions/inoActions";
 import PurchaseNftCard from "./components/PurchasedNftCard";
 import PurchasedNftCard from "./components/PurchasedNftCard";
 import Loader from "common/Loader";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -16,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover,contain",
     height: "100%",
     width: "100%",
-    paddingTop: "5%",
+
     paddingLeft: "3%",
     paddingRight: "3%",
     [theme.breakpoints.down("md")]: {
@@ -65,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 export default function InoPurchases() {
   const classes = useStyles();
   const theme = useTheme();
+  const navigate = useNavigate();
   const sm = useMediaQuery(theme.breakpoints.down("md"));
 
   const { active, account, chainId } = useActiveWeb3React();
@@ -91,6 +100,15 @@ export default function InoPurchases() {
   return (
     <Box>
       <Box className={classes.background}>
+        <Typography
+          variant="body2"
+          mb={2}
+          onClick={() => navigate(-1)}
+          style={{ cursor: "pointer" }}
+          fontWeight={600}
+        >
+          {"< "} Back
+        </Typography>
         <Box
           display={"flex"}
           flexDirection={"flex-start"}
