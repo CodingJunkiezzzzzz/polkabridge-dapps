@@ -1,4 +1,4 @@
-import { Button, Box, CircularProgress } from "@material-ui/core";
+import { Button, Box, CircularProgress } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";

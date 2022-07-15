@@ -1,7 +1,9 @@
 import "./App.css";
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import theme from "./theme";
+import { StyledEngineProvider } from "@mui/material/styles";
 import { Fragment } from "react";
 import Home from "./pages/Home/Home";
 import { Provider } from "react-redux";
@@ -11,7 +13,7 @@ import { NetworkContextName } from "./constants";
 import getLibrary from "./utils/getLibrary";
 import { BlockUpdater } from "./hooks/useBlockNumber";
 import MulticallUpdater from "./state/multicall/updater";
-import { Grid, Box, Hidden } from "@material-ui/core";
+import { Grid, Box, Hidden } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SideBar from "common/SideBar";
 import Appbar from "common/Appbar";
@@ -26,44 +28,47 @@ function App() {
     <Provider store={store}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Web3ProviderNetwork getLibrary={getLibrary}>
-          <ThemeProvider theme={theme}>
-            <MulticallUpdater />
-            <BlockUpdater />
-            <Router>
-              <Box style={{ minHeight: "100vh" }}>
-                <Grid container style={{ minHeight: "100vh" }}>
-                  <Hidden mdDown>
-                    <Grid item md={2} xs={12}>
-                      <SideBar />
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+              <MulticallUpdater />
+              <BlockUpdater />
+              <CssBaseline />
+              <Router>
+                <Box style={{ minHeight: "100vh" }}>
+                  <Grid container style={{ minHeight: "100vh" }}>
+                    <Hidden mdDown>
+                      <Grid item md={2} xs={12}>
+                        <SideBar />
+                      </Grid>
+                    </Hidden>
+                    <Grid
+                      item
+                      md={10}
+                      xs={12}
+                      mt={1}
+                      style={{
+                        background: `linear-gradient(90deg,#020203,#250c41)`,
+                      }}
+                    >
+                      <Appbar />
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route
+                          path="/view-launchpad"
+                          element={<LaunchpadDetails />}
+                        />
+                        <Route
+                          path="/purchase-launchpad"
+                          element={<LaunchpadPurchase />}
+                        />
+                        <Route path="/view-ino/:id" element={<InoDetails />} />
+                      </Routes>
                     </Grid>
-                  </Hidden>
-                  <Grid
-                    item
-                    md={10}
-                    xs={12}
-                    mt={1}
-                    style={{
-                      background: `linear-gradient(90deg,#020203,#250c41)`,
-                    }}
-                  >
-                    <Appbar />
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route
-                        path="/view-launchpad"
-                        element={<LaunchpadDetails />}
-                      />
-                      <Route
-                        path="/purchase-launchpad"
-                        element={<LaunchpadPurchase />}
-                      />
-                      <Route path="/view-ino/:id" element={<InoDetails />} />
-                    </Routes>
                   </Grid>
-                </Grid>
-              </Box>
-            </Router>
-          </ThemeProvider>
+                </Box>
+              </Router>
+            </ThemeProvider>
+          </StyledEngineProvider>
         </Web3ProviderNetwork>
       </Web3ReactProvider>
     </Provider>

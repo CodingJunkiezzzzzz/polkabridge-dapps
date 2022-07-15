@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Card } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Card } from "@mui/material";
 import { formatCurrency, fromWei } from "../utils/helper";
 import {
   tokenLogo,

@@ -1,4 +1,4 @@
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { BigNumber } from "bignumber.js";
 import {

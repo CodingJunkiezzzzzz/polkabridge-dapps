@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Button, Card } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import Loader from "../../../common/Loader";
-import { formatCurrency, formatLargeNumber } from "../../../utils/helper";
 import { connect } from "react-redux";
 import { fetchPbrMarketData } from "../../../actions/stakeActions";
-import { Box, Divider, Grid, Typography } from "@mui/material";
-import { Insights, Savings, Token, TrendingUp } from "@mui/icons-material";
+import { Box, Grid, Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   card: {

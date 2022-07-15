@@ -1,29 +1,17 @@
 import React, { useMemo } from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import Dialog from "@material-ui/core/Dialog";
-import { Close, FileCopy, OpenInNew } from "@material-ui/icons";
-import {
-  tokenName,
-  tokenLogo,
-  supportedStaking,
-  CORGIB,
-  tokenAddresses,
-} from "../constants";
-import { formatCurrency, fromWei } from "../utils/helper";
+import { makeStyles } from "@mui/styles";
+import { Close, OpenInNew } from "@mui/icons-material";
 import { connect } from "react-redux";
 import { logout } from "../actions/accountActions";
 import {
-  Card,
   Box,
-  Button,
-  Divider,
   Typography,
   useTheme,
   Grow,
   Backdrop,
+  Dialog,
 } from "@mui/material";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";
-import { useCurrencyBalances } from "../hooks/useBalance";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Grow direction="up" ref={ref} {...props} />;
@@ -239,295 +227,276 @@ const AccountDialog = ({
     handleClose();
   };
 
-  const tokens = useMemo(() => {
-    return supportedStaking?.[chainId]?.map((_symbol) => {
-      return { symbol: _symbol, address: tokenAddresses?.[_symbol]?.[chainId] };
-    });
-  }, [chainId]);
-  const balances = useCurrencyBalances(account, tokens);
-
   return (
-    <div>
-      <Dialog
-        onClose={handleClose}
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted={false}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        maxWidth="lg"
-        fullWidth={false}
-        PaperProps={{ borderRadius: 10 }}
-      >
-        {active && (
-          <div className={classes.background}>
-            <div className={classes.container}>
-              <div className="h-100 w-100">
-                <div
-                  className="d-flex justify-content-end"
-                  onClick={handleClose}
-                >
-                  <Close
-                    style={{ cursor: "pointer" }}
-                    className={classes.closeIcon}
-                  />
-                </div>
-                <div className="d-flex flex-column justify-content-around">
-                  <div className="mt-1">
-                    <Typography
-                      variant="h4"
-                      className={classes.heading}
-                      fontWeight={700}
-                    >
-                      My Wallet
-                    </Typography>
-                  </div>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted={true}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+      maxWidth="lg"
+      fullWidth={false}
+      PaperProps={{ borderRadius: 10 }}
+    >
+      <div className={classes.background}>
+        <div className={classes.container}>
+          {console.log(active)}
+          {console.log(account)}
 
-                  <div className="mt-5">
-                    <div className="row">
-                      <div className="col-md-4">
-                        {" "}
-                        <div className="text-center my-0">
-                          <img
-                            src="https://cdn3d.iconscout.com/3d/premium/thumb/e-wallet-4802219-3998266.png"
-                            className={classes.svgImage}
-                          />
-                        </div>
+          {active && (
+            <div className="h-100 w-100">
+              <div className="d-flex justify-content-end" onClick={handleClose}>
+                <Close
+                  style={{ cursor: "pointer" }}
+                  className={classes.closeIcon}
+                />
+              </div>
+              <div className="d-flex flex-column justify-content-around">
+                <div className="mt-1">
+                  <Typography
+                    variant="h4"
+                    className={classes.heading}
+                    fontWeight={700}
+                  >
+                    My Wallet
+                  </Typography>
+                </div>
+
+                <div className="mt-5">
+                  <div className="row">
+                    <div className="col-md-4">
+                      {" "}
+                      <div className="text-center my-0">
+                        <img
+                          src="https://cdn3d.iconscout.com/3d/premium/thumb/e-wallet-4802219-3998266.png"
+                          className={classes.svgImage}
+                        />
                       </div>
-                      <div className="col-md-8">
-                        {" "}
-                        <div className="mt-1">
-                          <Typography
-                            variant="h6"
-                            className={classes.heading}
-                            textAlign="left"
-                            style={{ textAlign: "left", fontSize: 15 }}
-                          >
-                            Address :
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                            className={classes.para}
-                            fontWeight={400}
-                            style={{
-                              textAlign: "left",
-                              fontSize: 14,
-                              marginTop: 6,
-                            }}
-                          >
-                            <pre style={{ wordWrap: "break-word" }}>
-                              {account}
-                            </pre>
-                          </Typography>
-                        </div>
-                        <div className="mt-3">
-                          <Typography
-                            variant="h6"
-                            className={classes.heading}
-                            fontWeight={600}
-                            style={{
-                              textAlign: "left",
-                              fontSize: 15,
-                              marginTop: 30,
-                            }}
-                          >
-                            Balance :
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                            className={classes.para}
-                            fontWeight={400}
-                            style={{
-                              textAlign: "left",
-                              fontSize: 14,
-                              marginTop: 6,
-                            }}
-                          >
-                            <pre>1.2 ETH</pre>
-                          </Typography>
-                        </div>
+                    </div>
+                    <div className="col-md-8">
+                      {" "}
+                      <div className="mt-1">
+                        <Typography
+                          variant="h6"
+                          className={classes.heading}
+                          textAlign="left"
+                          style={{ textAlign: "left", fontSize: 15 }}
+                        >
+                          Address :
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                          className={classes.para}
+                          fontWeight={400}
+                          style={{
+                            textAlign: "left",
+                            fontSize: 14,
+                            marginTop: 6,
+                          }}
+                        >
+                          <pre style={{ wordWrap: "break-word" }}>
+                            {account}
+                          </pre>
+                        </Typography>
+                      </div>
+                      <div className="mt-3">
+                        <Typography
+                          variant="h6"
+                          className={classes.heading}
+                          fontWeight={600}
+                          style={{
+                            textAlign: "left",
+                            fontSize: 15,
+                            marginTop: 30,
+                          }}
+                        >
+                          Balance :
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                          className={classes.para}
+                          fontWeight={400}
+                          style={{
+                            textAlign: "left",
+                            fontSize: 14,
+                            marginTop: 6,
+                          }}
+                        >
+                          <pre>1.2 ETH</pre>
+                        </Typography>
                       </div>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-evenly">
-                    <button className={classes.connectButton} onClick={null}>
-                      View on explorer <OpenInNew />
-                    </button>
-                    <button
-                      className={classes.connectButton}
-                      onClick={onSingOut}
-                    >
-                      Sign Out
-                    </button>
-                  </div>
+                </div>
+                <div className="d-flex justify-content-evenly">
+                  <button className={classes.connectButton} onClick={null}>
+                    View on explorer <OpenInNew />
+                  </button>
+                  <button className={classes.connectButton} onClick={onSingOut}>
+                    Sign Out
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-        {!active && (
-          <div className={classes.background}>
-            <div className={classes.container}>
-              <div className="h-100 w-100">
-                <div
-                  className="d-flex justify-content-end"
-                  onClick={handleClose}
-                >
-                  <Close
-                    style={{ cursor: "pointer" }}
-                    className={classes.closeIcon}
-                  />
+          )}
+          {!active && (
+            <div className="h-100 w-100">
+              <div className="d-flex justify-content-end" onClick={handleClose}>
+                <Close
+                  style={{ cursor: "pointer" }}
+                  className={classes.closeIcon}
+                />
+              </div>
+              <div className="d-flex flex-column justify-content-around">
+                <div className="mt-1 mb-3">
+                  <Typography
+                    variant="h4"
+                    className={classes.heading}
+                    fontWeight={700}
+                  >
+                    Connect You Wallet
+                  </Typography>
                 </div>
-                <div className="d-flex flex-column justify-content-around">
-                  <div className="mt-1 mb-3">
-                    <Typography
-                      variant="h4"
-                      className={classes.heading}
-                      fontWeight={700}
-                    >
-                      Connect You Wallet
-                    </Typography>
-                  </div>
 
-                  <div className="mt-3 d-flex justify-content-center">
-                    <Box
-                      display="flex"
-                      flexDirection={"row"}
-                      justifyContent="flex-start"
-                      alignItems="center"
-                      onClick={() => handleConnection("injected")}
-                      style={{
-                        width: "100%",
-                        maxWidth: 400,
+                <div className="mt-3 d-flex justify-content-center">
+                  <Box
+                    display="flex"
+                    flexDirection={"row"}
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    onClick={() => handleConnection("injected")}
+                    style={{
+                      width: "100%",
+                      maxWidth: 400,
 
-                        border: "1px solid #4A3F55",
-                        paddingTop: 7,
-                        paddingBottom: 7,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        cursor: "pointer",
-                        borderRadius: 10,
-                      }}
-                    >
-                      <Box className={classes.imageWrapper}>
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"
-                          alt="Metamask"
-                          height="30px"
-                        />{" "}
-                      </Box>{" "}
-                      <Box>
-                        <Typography
-                          variant="h6"
-                          className={classes.cardTitle}
-                          textAlign="left"
-                          fontWeight={600}
-                          ml={2}
-                        >
-                          Metamask
-                        </Typography>
-                      </Box>
+                      border: "1px solid #4A3F55",
+                      paddingTop: 7,
+                      paddingBottom: 7,
+                      paddingLeft: 20,
+                      paddingRight: 20,
+                      cursor: "pointer",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <Box className={classes.imageWrapper}>
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"
+                        alt="Metamask"
+                        height="30px"
+                      />{" "}
+                    </Box>{" "}
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        className={classes.cardTitle}
+                        textAlign="left"
+                        fontWeight={600}
+                        ml={2}
+                      >
+                        Metamask
+                      </Typography>
                     </Box>
-                  </div>
-                  <div className="mt-3 d-flex justify-content-center">
-                    <Box
-                      display="flex"
-                      flexDirection={"row"}
-                      justifyContent="flex-start"
-                      alignItems="center"
-                      onClick={() => handleConnection("unstoppable")}
-                      style={{
-                        width: "100%",
-                        maxWidth: 400,
+                  </Box>
+                </div>
+                <div className="mt-3 d-flex justify-content-center">
+                  <Box
+                    display="flex"
+                    flexDirection={"row"}
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    onClick={() => handleConnection("unstoppable")}
+                    style={{
+                      width: "100%",
+                      maxWidth: 400,
 
-                        border: "1px solid #4A3F55",
-                        paddingTop: 7,
-                        paddingBottom: 7,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        borderRadius: 10,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Box className={classes.imageWrapper}>
-                        <img
-                          src="https://avatars.githubusercontent.com/u/36172275?s=280&v=4"
-                          alt="Unstoppable"
-                          height="30px"
-                          style={{ borderRadius: 20 }}
-                        />{" "}
-                      </Box>{" "}
-                      <Box>
-                        <Typography
-                          variant="h6"
-                          className={classes.cardTitle}
-                          textAlign="left"
-                          fontWeight={600}
-                          ml={2}
-                        >
-                          Unstoppable Domains
-                        </Typography>
-                      </Box>
+                      border: "1px solid #4A3F55",
+                      paddingTop: 7,
+                      paddingBottom: 7,
+                      paddingLeft: 20,
+                      paddingRight: 20,
+                      borderRadius: 10,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Box className={classes.imageWrapper}>
+                      <img
+                        src="https://avatars.githubusercontent.com/u/36172275?s=280&v=4"
+                        alt="Unstoppable"
+                        height="30px"
+                        style={{ borderRadius: 20 }}
+                      />{" "}
+                    </Box>{" "}
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        className={classes.cardTitle}
+                        textAlign="left"
+                        fontWeight={600}
+                        ml={2}
+                      >
+                        Unstoppable Domains
+                      </Typography>
                     </Box>
-                  </div>
-                  <div className="mt-3 d-flex justify-content-center">
-                    <Box
-                      display="flex"
-                      flexDirection={"row"}
-                      justifyContent="flex-start"
-                      alignItems="center"
-                      onClick={() => handleConnection("walletConnect")}
-                      style={{
-                        width: "100%",
-                        maxWidth: 400,
+                  </Box>
+                </div>
+                <div className="mt-3 d-flex justify-content-center">
+                  <Box
+                    display="flex"
+                    flexDirection={"row"}
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    onClick={() => handleConnection("walletConnect")}
+                    style={{
+                      width: "100%",
+                      maxWidth: 400,
 
-                        border: "1px solid #4A3F55",
-                        paddingTop: 7,
-                        paddingBottom: 7,
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                        borderRadius: 10,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Box className={classes.imageWrapper}>
-                        <img
-                          src="img/wc.png"
-                          alt="Wallet-Connect"
-                          height="30px"
-                        />{" "}
-                      </Box>{" "}
-                      <Box>
-                        <Typography
-                          variant="h6"
-                          className={classes.cardTitle}
-                          textAlign="left"
-                          fontWeight={600}
-                          ml={2}
-                        >
-                          Wallet Connect
-                        </Typography>
-                      </Box>
+                      border: "1px solid #4A3F55",
+                      paddingTop: 7,
+                      paddingBottom: 7,
+                      paddingLeft: 20,
+                      paddingRight: 20,
+                      borderRadius: 10,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Box className={classes.imageWrapper}>
+                      <img
+                        src="img/wc.png"
+                        alt="Wallet-Connect"
+                        height="30px"
+                      />{" "}
+                    </Box>{" "}
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        className={classes.cardTitle}
+                        textAlign="left"
+                        fontWeight={600}
+                        ml={2}
+                      >
+                        Wallet Connect
+                      </Typography>
                     </Box>
-                  </div>
-                  <div className="d-flex justify-content-center">
-                    <button
-                      className={classes.connectButton}
-                      onClick={handleClose}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                  </Box>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <button
+                    className={classes.connectButton}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </Dialog>
-    </div>
+          )}
+        </div>
+      </div>
+    </Dialog>
   );
 };
 

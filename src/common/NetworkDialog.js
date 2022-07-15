@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import { makeStyles } from "@mui/styles";
 import {
   bscNetworkDetail,
   ethereumNetworkDetail,
@@ -20,13 +17,9 @@ import store from "../store";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";
 import { connect } from "react-redux";
 import {
-  Avatar,
-  Backdrop,
   Box,
-  Dialog,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   Typography,
   Grow,

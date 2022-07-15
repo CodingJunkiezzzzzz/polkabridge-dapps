@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Typography, Input, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { Close, ShoppingBasket } from "@material-ui/icons";
+import { Close } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({

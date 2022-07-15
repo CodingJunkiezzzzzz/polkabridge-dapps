@@ -1,4 +1,4 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useMemo } from "react";
 import SingleStakeCard from "../../components/SingleStakeCard";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ import { CHANGE_NETWORK, CONNECT_WALLET } from "../../actions/types";
 import store from "../../store";
 import { getCurrentNetworkName } from "../../utils/helper";
 import useActiveWeb3React from "../../hooks/useActiveWeb3React";
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   background: {
