@@ -20,6 +20,7 @@ import Appbar from "common/Appbar";
 import LaunchpadDetails from "pages/Launchpad/LaunchpadDetails";
 import LaunchpadPurchase from "pages/Launchpad/LaunchpadPurchase";
 import InoDetails from "pages/Ino/InoDetails";
+import InoPurchases from "pages/Ino/InoPurchases";
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
@@ -62,6 +63,10 @@ function App() {
                           element={<LaunchpadPurchase />}
                         />
                         <Route path="/view-ino/:id" element={<InoDetails />} />
+                        <Route
+                          path="/ino-purchases"
+                          element={<InoPurchases />}
+                        />
                       </Routes>
                     </Grid>
                   </Grid>

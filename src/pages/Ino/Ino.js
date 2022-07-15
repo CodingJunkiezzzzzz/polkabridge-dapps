@@ -5,6 +5,7 @@ import { Container } from "@mui/system";
 import InoCard from "./components/InoCard";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import localPools from "./data/poolsData";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -92,7 +93,9 @@ export default function Ino() {
               style={{ color: "white", height: "100%", width: 1 }}
             />
 
-            <Box className={classes.buttonCard}>My Purchases</Box>
+            <Link to="/ino-purchases">
+              <Box className={classes.buttonCard}>My Purchases</Box>
+            </Link>
           </Box>
         </Box>
 

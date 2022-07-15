@@ -5,11 +5,9 @@ import { Link } from "react-router-dom";
 import {
   getInitialBalanceOfPool,
   getIsWhitelisted,
-  getPoolDetails,
   getRemainingQuantityOfPool,
 } from "actions/inoActions";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
-import Web3 from "web3";
 import ProgressStatsBar from "common/ProgressStatsBar";
 
 const useStyles = makeStyles((theme) => ({
