@@ -116,6 +116,7 @@ export default function InoCard({ item }) {
     }
 
     let activeChainIds = item.chainIds;
+
     let poolId = item.id;
     let remainingQuantity = await getRemainingQuantityOfPool(
       poolId,

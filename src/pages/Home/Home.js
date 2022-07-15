@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { Box, useTheme } from "@mui/material";
+import { Box, Container, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import Stake from "../Stake/Stake";
 import { supportedStaking, unsupportedStaking } from "../../constants";
@@ -56,11 +56,11 @@ export default function Home() {
   const { active, account, chainId } = useActiveWeb3React();
 
   return (
-    <Box>
+    <Container>
       {menuTabIndex === 0 && <Dashboard />}
       {menuTabIndex === 1 && <Stake />}
       {menuTabIndex === 2 && <Launchpad />}
       {menuTabIndex === 3 && <Ino />}
-    </Box>
+    </Container>
   );
 }

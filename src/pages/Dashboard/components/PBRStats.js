@@ -71,8 +71,6 @@ const PbrStats = ({
     <Box className={classes.card}>
       {!poolLoading && (
         <Box>
-          {console.log(pbrMarketData)}
-          {console.log(stats)}
           <Box
             display="flex"
             flexDirection={"row"}

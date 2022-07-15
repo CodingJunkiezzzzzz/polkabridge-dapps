@@ -36,12 +36,7 @@ function App() {
               <CssBaseline />
               <Router>
                 <Box style={{ minHeight: "100vh" }}>
-                  <Grid container style={{ minHeight: "100vh" }}>
-                    <Hidden mdDown>
-                      <Grid item md={2} xs={12}>
-                        <SideBar />
-                      </Grid>
-                    </Hidden>
+                  <Grid container style={{ height: "100%" }}>
                     <Grid
                       item
                       md={10}

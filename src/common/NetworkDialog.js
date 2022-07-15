@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   networkName: {},
 }));
 
-const NetworkDialog = ({ account: { currentChain } }) => {
+const NetworkDialog = ({ account: { currentChain }, selectedNetwork }) => {
   const classes = useStyles();
 
   const [network, setNetwork] = React.useState(
@@ -112,12 +112,12 @@ const NetworkDialog = ({ account: { currentChain } }) => {
   };
 
   useEffect(() => {
-    if (!currentChain) {
+    if (!selectedNetwork) {
       return;
     }
 
-    setNetwork(currentChain);
-  }, [currentChain]);
+    setNetwork(selectedNetwork);
+  }, [selectedNetwork]);
 
   const handleChangeNetwork = (_selected) => {
     store.dispatch({

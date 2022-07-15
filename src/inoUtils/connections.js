@@ -12,7 +12,7 @@ export const isMetaMaskInstalled = () => {
   return typeof window.web3 !== "undefined";
 };
 
-export const inoContract = async (chainIds) => {
+export const inoContract = async (chainIds, callType = "read") => {
   const abi = inoAbi;
   let chainId;
   if (chainIds) {
@@ -42,7 +42,12 @@ export const inoContract = async (chainIds) => {
       contractAddress = ethContractAddress;
   }
 
-  const connection = await getCurrentConnection(abi, contractAddress, chainId);
+  const connection = await getCurrentConnection(
+    abi,
+    contractAddress,
+    chainId,
+    callType
+  );
 
   // let res = await connection.methods.getPoolInfo(1).call((err, response) => {
   //   return response;
@@ -52,7 +57,12 @@ export const inoContract = async (chainIds) => {
   return connection;
 };
 
-export const getCurrentConnection = async (abi, contractAddress, chainId) => {
+export const getCurrentConnection = async (
+  abi,
+  contractAddress,
+  chainId,
+  callType
+) => {
   let currentRPC;
 
   switch (parseInt(chainId)) {
@@ -75,7 +85,9 @@ export const getCurrentConnection = async (abi, contractAddress, chainId) => {
   }
 
   const web3 = isMetaMaskInstalled()
-    ? new Web3(window.ethereum)
+    ? callType === "read"
+      ? new Web3(new Web3.providers.HttpProvider(currentRPC))
+      : new Web3(window.ethereum)
     : new Web3(new Web3.providers.HttpProvider(currentRPC));
   let temp = new web3.eth.Contract(abi, contractAddress);
 
