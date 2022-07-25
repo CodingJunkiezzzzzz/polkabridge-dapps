@@ -37,6 +37,16 @@ function App() {
               <Router>
                 <Box style={{ minHeight: "100vh" }}>
                   <Grid container style={{ height: "100%" }}>
+                    <Hidden mdDown>
+                      <Grid
+                        item
+                        md={2}
+                        xs={12}
+                        style={{ backgroundColor: "#270E44" }}
+                      >
+                        <SideBar />
+                      </Grid>
+                    </Hidden>
                     <Grid
                       item
                       md={10}
@@ -44,6 +54,8 @@ function App() {
                       mt={1}
                       style={{
                         background: `linear-gradient(90deg,#020203,#250c41)`,
+                        height: "100%",
+                        minHeight: "97vh",
                       }}
                     >
                       <Appbar />

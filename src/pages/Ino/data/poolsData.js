@@ -63,6 +63,7 @@ let pool3 = {
   poolId: 3,
   logo: "https://static.wixstatic.com/media/03667d_125a7fc35a9a4054bb52ca6202306305~mv2.png/v1/fill/w_100,h_100,al_c,usm_0.66_1.00_0.01,enc_auto/Shoefy%20Purple%20pink.png",
   title: "ShoeFy NFTs",
+  summary: "ShoeFy is an innovative decentralized platform",
   type: "Packages",
   totalPackages: "3",
   description: `ShoeFy is an innovative decentralized platform that combines Non-Fungible Tokens (NFT) and Fungible Tokens (FT). It is a futuristic NFT project that utilizes cutting-edge DeFi tools to maximize returns. ShoeFy can amplify the NFTs potential by including both farming and staking to generate passive income. ShoeFy have two tokens namely, $SHOE(ERC-20), the native Fungible Token and sNFTs (ERC-721) which are randomly generated on-chain. Each sNFT is an algorithmically programmed unique digital shoe on the platform.`,
@@ -93,6 +94,7 @@ let pool4 = {
   poolId: 4, // Reference to Local ID
   logo: "https://miro.medium.com/max/1400/1*9oPwMlH9Hz38bWhNzVdeWg.png",
   title: "FOTA Heros",
+  summary: "Possibility of owning valuable digital assets",
   type: "Packages",
   totalPackages: "1",
   description: `FOTA is a Triple-A MOBA Game project owned by Meta DJINN PTE.LTD and based in SINGAPORE, with a fantasy universe inhabited by many races throughout the universe. In the world of FOTA, NFT Technology is optimized so that users can feel the possibility of owning valuable digital assets during the journey`,
@@ -116,6 +118,42 @@ let pool4 = {
   twitter: "https://twitter.com/fightoftheages",
   poolType: "1",
 };
-pools = [pool1, pool2, pool3, pool4];
+
+let pool5 = {
+  id: 2,
+  poolId: 5,
+  logo: "https://s2.coinmarketcap.com/static/img/coins/200x200/17600.png",
+  title: "Galaxy Blitz NFTs",
+  type: "Packages",
+  totalPackages: "2",
+  summary: "Play-To-Earn combat strategy NFT game",
+  description: `Galaxy Blitz is a Play-To-Earn combat strategy NFT game. The game is set in the future, as four unique highly evolved descendants of humanity fight for dominance in battles on both land and in space. `,
+  startDate: "July 26, 2022 14:00:00 UTC",
+  endDate: "July 27, 2022 14:00:00 UTC",
+  utilities: [
+    "NFTs collected can be used to trade for physical assets and be used in the game.",
+    "NFT holders will be able to participate in the beta testing of the game.",
+    "NFTs can be staked and mine MIT token, up to 600% APY",
+    "Pledge NFT to share MIT seasonal rewards pool (Farm)",
+    "NFT merge (N+N=R, R+R=SR)",
+    "Lottery: stake determined level of NFT to stand a chance to win the prize",
+    "NFT AR functionality on mobile",
+  ],
+  price: "0.4-1.4",
+  currency: "BNB",
+  network: "Binance Smart Chain",
+  quantity: "420",
+  priceRange: "0.74-0.826",
+  minPrice: "85",
+  currency: "BNB",
+  totalRaiseAmount: 50000,
+  chainIds: [56, 97],
+  website: "https://galaxyblitz.world",
+  whitepaper: "https://galaxy-blitz.gitbook.io/galaxy-blitz",
+  telegram: "https://t.me/galaxyblitz",
+  twitter: "https://twitter.com/GalaxyBlitzGame",
+  poolType: "1",
+};
+pools = [pool1, pool2, pool3, pool4, pool5];
 
 export default pools;

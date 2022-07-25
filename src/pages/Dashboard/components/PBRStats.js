@@ -143,7 +143,7 @@ const PbrStats = ({
                       variant="body2"
                       textAlign="left"
                       fontWeight={600}
-                      color={"#919191"}
+                      color={"#9267DB"}
                       fontSize={14}
                       style={{ paddingBottom: 4 }}
                     >
@@ -180,7 +180,7 @@ const PbrStats = ({
                       variant="body2"
                       textAlign="left"
                       fontWeight={600}
-                      color={"#919191"}
+                      color={"#9267DB"}
                       fontSize={16}
                       style={{ paddingBottom: 4 }}
                     >
@@ -216,7 +216,7 @@ const PbrStats = ({
                       variant="body2"
                       textAlign="left"
                       fontWeight={600}
-                      color={"#919191"}
+                      color={"#9267DB"}
                       fontSize={14}
                       style={{ paddingBottom: 4 }}
                     >
@@ -257,7 +257,7 @@ const PbrStats = ({
                       variant="body2"
                       textAlign="left"
                       fontWeight={600}
-                      color={"#919191"}
+                      color={"#9267DB"}
                       fontSize={14}
                       style={{ paddingBottom: 4 }}
                     >

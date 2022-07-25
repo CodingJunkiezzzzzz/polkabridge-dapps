@@ -192,6 +192,7 @@ const StakeInputPopup = ({ resetPopup }) => {
                     src="https://polkabridge.org/images/symbol.png"
                     alt="PBR"
                     height="35px"
+                    style={{ minWidth: 30 }}
                   />{" "}
                 </Box>
                 <Box>

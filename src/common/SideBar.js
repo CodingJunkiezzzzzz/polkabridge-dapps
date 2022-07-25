@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     lineHeight: "30px",
     color: "white",
+    [theme.breakpoints.down("md")]: {
+      fontWeight: 500,
+      fontSize: 14,
+    },
   },
 }));
 
@@ -64,7 +68,6 @@ const SideBar = ({}) => {
 
   return (
     <Box
-      style={{ position: "fixed" }}
       px={2}
       pt={3}
       pb={2}
@@ -72,7 +75,14 @@ const SideBar = ({}) => {
       display="flex"
       flexDirection="column"
       height="100%"
-      minWidth={240}
+      width="16vw"
+      style={{
+        position: "fixed",
+        top: 40,
+        bottom: 0,
+        position: "-webkit-fixed",
+        position: "fixed",
+      }}
     >
       <Box>
         <Box py={2}>

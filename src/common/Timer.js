@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Timer({ endTime }) {
+function Timer({ endTime, type = "normal" }) {
   const calculateTimeLeft = () => {
     let year = new Date().getFullYear();
     const difference = +new Date(endTime) - +new Date();
@@ -30,24 +30,45 @@ function Timer({ endTime }) {
 
   Object.keys(timeLeft).forEach((interval, index) => {
     timerComponents.push(
-      <span style={{ paddingLeft: 5 }}>
-        <span
-          style={{
-            paddingTop: 5,
-            paddingBottom: 5,
-            paddingLeft: 7,
-            paddingRight: 7,
-            borderRadius: 7,
-            fontSize: 14,
-            backgroundColor: "rgba(82, 27, 143,0.9)",
-            color: "white",
-            fontWeight: 600,
-          }}
-        >
-          {timeLeft[interval]}
-          {interval}
+      type === "text" ? (
+        <span style={{ paddingLeft: 5 }}>
+          <span
+            style={{
+              paddingTop: 5,
+              paddingBottom: 5,
+              paddingLeft: 7,
+              paddingRight: 7,
+              borderRadius: 7,
+              fontSize: 14,
+              backgroundColor: "rgba(82, 27, 143,0.9)",
+              color: "white",
+              fontWeight: 600,
+            }}
+          >
+            {timeLeft[interval]}
+            {interval}
+          </span>
         </span>
-      </span>
+      ) : (
+        <span style={{ paddingLeft: 5 }}>
+          <span
+            style={{
+              paddingTop: 5,
+              paddingBottom: 5,
+              paddingLeft: 7,
+              paddingRight: 7,
+              borderRadius: 7,
+              fontSize: 14,
+              backgroundColor: "rgba(82, 27, 143,0.9)",
+              color: "white",
+              fontWeight: 600,
+            }}
+          >
+            {timeLeft[interval]}
+            {interval}
+          </span>
+        </span>
+      )
     );
   });
   return <div>{timerComponents.length && timerComponents}</div>;

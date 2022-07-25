@@ -219,6 +219,7 @@ const StakeDialog = ({
   stakeTokens,
   unstakeTokens,
   transactionStatus,
+  apy,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -432,7 +433,7 @@ const StakeDialog = ({
                         fontWeight={600}
                         color={"#e5e5e5"}
                       >
-                        25%
+                        {apy}%
                       </Typography>
                       <Typography
                         variant="h6"
@@ -456,7 +457,7 @@ const StakeDialog = ({
                 >
                   {type === "stake" ? "Available" : "Staked"} tokens:{" "}
                   <strong>
-                    763
+                    {parseFloat(fromWei(poolTokenBalance)).toFixed(2)}
                     {" " + tokenType}
                   </strong>
                 </Typography>

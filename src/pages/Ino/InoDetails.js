@@ -28,6 +28,7 @@ import NFTCard from "./components/NFTCard";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import localPools from "./data/poolsData";
 import { getPoolDetails } from "actions/inoActions";
+import Timer from "common/Timer";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -53,14 +54,14 @@ const useStyles = makeStyles((theme) => ({
 
   title: {
     fontWeight: 600,
-    fontSize: 36,
+    fontSize: 32,
     letterSpacing: "0.02em",
     color: "#ffffff",
     textAlign: "left",
   },
   subheading: {
     fontWeight: 600,
-    fontSize: 20,
+    fontSize: 16,
     letterSpacing: "0.02em",
     color: "#919191",
     textAlign: "left",
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
   description: {
     fontWeight: 400,
-    fontSize: 15,
+    fontSize: 14,
     letterSpacing: "0.02em",
     color: "#919191",
     textAlign: "left",
@@ -142,8 +143,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   logo: {
-    maxHeight: 280,
-    maxWidth: 280,
+    maxHeight: 200,
+    maxWidth: 200,
     objectFit: "contain",
   },
 }));
@@ -155,10 +156,11 @@ export default function InoDetails() {
   const { active, account, chainId } = useActiveWeb3React();
   const navigate = useNavigate();
 
-  const [saleStatus, setSaleStatus] = useState(true);
+  const [saleCase, setSaleCase] = useState(0);
   const [visibleAbout, setVisibleAbout] = useState(false);
   const [poolDetailsLocal, setPoolDetailsLocal] = useState(null);
   const [poolDetail, setPoolDetail] = useState(null);
+  const [timeToCalc, setTimeToCalc] = useState(Date.now());
 
   useEffect(async () => {
     let poolDataObj = localPools[parseInt(id) - 1];
@@ -169,6 +171,42 @@ export default function InoDetails() {
     setPoolDetail(result);
   }, []);
 
+  useEffect(() => {
+    if (poolDetail) {
+      calculateSaleCase();
+    }
+  }, [poolDetail]);
+
+  const calculateSaleCase = () => {
+    let poolDataObj = localPools[parseInt(id) - 1];
+    if (poolDataObj) {
+      let date = poolDataObj.startDate;
+
+      const date1 = new Date(date).getTime(); // Begin Time
+      const date2 = Date.now(); // Current Time
+
+      console.log(date);
+      console.log(date2);
+      const diffTime = date1 - date2;
+
+      if (diffTime > 0) {
+        console.log("Sale not started");
+        setTimeToCalc(date1);
+        setSaleCase(0);
+      } else {
+        console.log("Sale started");
+
+        let timeToEnd = poolDetail.End * 1000 - Date.now();
+        if (timeToEnd < 0) {
+          setSaleCase(2);
+          setTimeToCalc(poolDetail.End * 1000);
+        } else {
+          setSaleCase(1);
+          setTimeToCalc(poolDetail.End * 1000);
+        }
+      }
+    }
+  };
   return (
     <Box>
       {poolDetailsLocal && (
@@ -233,7 +271,7 @@ export default function InoDetails() {
               >
                 {poolDetailsLocal.summary}
               </Typography>
-              {!saleStatus && (
+              {saleCase === 0 && (
                 <Box
                   display={"flex"}
                   justifyContent="flex-start"
@@ -252,11 +290,36 @@ export default function InoDetails() {
                     style={{ color: "white", height: "100%", width: 1 }}
                   />
                   <Box className={classes.buttonCard}>
-                    16d : 01h : 50m : 10s
+                    {console.log(timeToCalc)}
+                    <Timer endTime={timeToCalc} type={"normal"} />
                   </Box>
                 </Box>
               )}
-              {saleStatus && (
+              {saleCase === 1 && (
+                <Box
+                  display={"flex"}
+                  justifyContent="flex-start"
+                  className={classes.buttonWrapper}
+                >
+                  <Box
+                    className={classes.buttonCard}
+                    style={{ color: "#31B22F" }}
+                  >
+                    Sale ends in:
+                  </Box>
+                  <Divider
+                    light
+                    variant="fullWidth"
+                    orientation="vertical"
+                    style={{ color: "white", height: "100%", width: 1 }}
+                  />
+                  <Box className={classes.buttonCard}>
+                    {console.log(timeToCalc)}
+                    <Timer endTime={timeToCalc} type={"normal"} />
+                  </Box>
+                </Box>
+              )}
+              {saleCase === 2 && (
                 <Box
                   display={"flex"}
                   justifyContent="flex-start"
@@ -266,7 +329,7 @@ export default function InoDetails() {
                     className={classes.buttonCard}
                     style={{ color: "#FF5252" }}
                   >
-                    Sale ends in:{" "}
+                    Sale ended
                   </Box>
                   <Divider
                     light
@@ -274,9 +337,6 @@ export default function InoDetails() {
                     orientation="vertical"
                     style={{ color: "white", height: "100%", width: 1 }}
                   />
-                  <Box className={classes.buttonCard}>
-                    16d : 01h : 50m : 10s
-                  </Box>
                 </Box>
               )}
               <Box mt={2}>
