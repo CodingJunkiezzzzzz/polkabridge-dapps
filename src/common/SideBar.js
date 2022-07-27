@@ -97,7 +97,7 @@ const SideBar = ({}) => {
             />
           </Typography>
         </Box>
-        {console.log(location.pathname)}
+
         <Box pt={5}>
           <Paper
             onClick={() => dispatch(updateMenuTabIndex(0))}
@@ -117,7 +117,11 @@ const SideBar = ({}) => {
               borderRadius: 2,
             }}
           >
-            <Dashboard style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./home_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Home
             </Typography>
@@ -140,7 +144,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <Money style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./stake_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Stake
             </Typography>
@@ -162,7 +170,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <Group style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./launchpad_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Launchpad
             </Typography>
@@ -184,7 +196,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <Photo style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./ino_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               INO
             </Typography>
