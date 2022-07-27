@@ -3,11 +3,15 @@ import { makeStyles } from "@mui/styles";
 import { Box, Container, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import Stake from "../Stake/Stake";
-import { supportedStaking, unsupportedStaking } from "../../constants";
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import Dashboard from "pages/Dashboard/Dashboard";
 import Launchpad from "pages/Launchpad/Launchpad";
 import Ino from "pages/Ino/Ino";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import LaunchpadDetails from "pages/Launchpad/LaunchpadDetails";
+import LaunchpadPurchase from "pages/Launchpad/LaunchpadPurchase";
+import InoDetails from "pages/Ino/InoDetails";
+import InoPurchases from "pages/Ino/InoPurchases";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -51,16 +55,32 @@ export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
   const store = useSelector((state) => state);
+  const { page, subpage, id } = useParams();
+
   const { menuTabIndex } = store.ui;
 
   const { active, account, chainId } = useActiveWeb3React();
 
   return (
     <Container>
-      {menuTabIndex === 0 && <Dashboard />}
-      {menuTabIndex === 1 && <Stake />}
-      {menuTabIndex === 2 && <Launchpad />}
-      {menuTabIndex === 3 && <Ino />}
+      {page === undefined && <Dashboard />}
+      {page === "stake" && <Stake />}
+      {page === "launchpad" && <Launchpad />}
+      {page === "launchpad" && subpage === "view-launchpad" && (
+        <LaunchpadDetails />
+      )}
+      {page === "launchpad" && subpage === "/purchase-launchpad" && (
+        <LaunchpadPurchase />
+      )}
+
+      {/* ino pages */}
+      {page === "ino" && subpage === undefined && id != undefined && <Ino />}
+      {page === "ino" && subpage === "/view-ino" && id != undefined && (
+        <InoDetails />
+      )}
+      {page === "ino" && subpage === "/ino-purchases" && id === undefined && (
+        <InoPurchases />
+      )}
     </Container>
   );
 }

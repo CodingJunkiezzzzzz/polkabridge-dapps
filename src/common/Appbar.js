@@ -1,15 +1,26 @@
-import { Box, Container, Avatar, Hidden } from "@mui/material";
+import React from "react";
+import clsx from "clsx";
+import {
+  Box,
+  Container,
+  Avatar,
+  Hidden,
+  SwipeableDrawer,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
-
-import ConnectButton from "./ConnectButton";
-import { Link } from "react-router-dom";
 import Wallet from "./Wallet";
+import { Menu } from "@mui/icons-material";
 import connectors from "../connection/connectors";
 import { WalletConnectConnector } from "web3-react-walletconnect-connector";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";
 import { useEffect, useState } from "react";
 import AccountDialog from "./AccountDialog";
 import NetworkDialog from "./NetworkDialog";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   linkItems: {
@@ -21,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     height: 50,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       height: 30,
     },
   },
@@ -95,12 +106,30 @@ const useStyles = makeStyles((theme) => ({
     color: "#f9f9f9",
     fontSize: 14,
   },
+  list: {
+    width: "250px",
+    borderLeft: "5px solid #7825D5",
+    borderColor: "#7825D5",
+    height: "100%",
+    backgroundColor: "#000000",
+  },
+  fullList: {
+    width: "auto",
+  },
 }));
 
 const Appbar = () => {
   const classes = useStyles();
 
   const [accountDialog, setAccountDialog] = useState(false);
+
+  const [state, setState] = React.useState({
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    setState({ ...state, [anchor]: open });
+  };
 
   const { active, account, activate, deactivate, chainId } =
     useActiveWeb3React();
@@ -156,6 +185,48 @@ const Appbar = () => {
     } catch (error) {}
   };
 
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === "top" || anchor === "bottom",
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List style={{ paddingTop: 30 }}>
+        {[
+          { name: "Home", url: "/" },
+          { name: "Stake", url: "/stake" },
+          { name: "Launchpad", url: "/launchpad" },
+          { name: "INO", url: "/ino" },
+          { name: "Farm", url: "/farm" },
+        ].map((tab, index) => (
+          <Link activeClass="active" to={tab.url}>
+            <ListItem
+              button
+              key={tab.name}
+              onClick={toggleDrawer(anchor, false)}
+            >
+              <ListItemText primary={tab.name} className={classes.menuTitle} />
+            </ListItem>
+          </Link>
+        ))}{" "}
+        {[{ name: "Swap", id: "https://swap.polkabridge.org/" }].map(
+          (tab, index) => (
+            <a href={tab.id} className={classes.mobileLink}>
+              <ListItem button key={tab.name}>
+                <ListItemText
+                  primary={tab.name}
+                  className={classes.menuTitle}
+                />
+              </ListItem>
+            </a>
+          )
+        )}
+      </List>
+    </div>
+  );
   return (
     <Box style={{ position: "relative", zIndex: 10 }}>
       <header>
@@ -175,16 +246,13 @@ const Appbar = () => {
               mt={1}
             >
               <Box display="flex" justifyContent="flex-end" alignItems="center">
-                <div style={{ padding: 3, paddingRight: 10 }}>
-                  <Avatar src="https://cdn3d.iconscout.com/3d/premium/thumb/notification-bell-4730505-3934029.png" />{" "}
-                </div>{" "}
                 <NetworkDialog selectedNetwork={chainId} />
                 <Wallet onWalletClick={handleWalletClick} />
               </Box>
             </Box>
           </Container>
         </Hidden>
-        <Hidden smUp>
+        <Hidden mdUp>
           <Container>
             <Box
               display="flex"
@@ -207,8 +275,7 @@ const Appbar = () => {
                   }}
                 >
                   <img
-                    src="https://cdn3d.iconscout.com/3d/free/thumb/squigly-globe-3494833-2926648@0.png"
-                    alt="SleepSwap"
+                    src="https://launchpad.polkabridge.org/img/logo-white.png"
                     className={classes.logo}
                   />
                   <div
@@ -223,33 +290,40 @@ const Appbar = () => {
                     PolkaBridge
                   </div>
                 </div>
-                <Box>
-                  {/* <Box display="flex" justifyContent="flex-start">
-                  <Link to="/" style={{ textDecoration: "none" }}>
-                    {" "}
-                    <Typography
-                      variant="h6"
-                      color="textSecondary"
-                      className={classes.linkItems}
-                      style={{
-                        color: "black",
-                      }}
-                    >
-                      Home
-                    </Typography>
-                  </Link>
-                </Box> */}
-                </Box>
+                <Box></Box>
               </Box>
 
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-                <div style={{ padding: 3, paddingRight: 10 }}>
-                  <Avatar src="https://cdn3d.iconscout.com/3d/premium/thumb/notification-bell-4730505-3934029.png" />{" "}
-                </div>
-                <div style={{ padding: 3, paddingRight: 10 }}>
-                  <Avatar src="https://cdn3d.iconscout.com/3d/premium/thumb/burger-menu-2891366-2409762@0.png" />{" "}
-                </div>
+              <Box
+                display="flex"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Wallet onWalletClick={handleWalletClick} />
               </Box>
+              <div>
+                {["right"].map((anchor) => (
+                  <React.Fragment key={anchor}>
+                    <IconButton
+                      aria-label="Menu"
+                      aria-haspopup="true"
+                      className={classes.menuIcon}
+                      onClick={toggleDrawer(anchor, true)}
+                    >
+                      <Menu style={{ color: "white", size: 32 }} />
+                    </IconButton>
+
+                    <SwipeableDrawer
+                      anchor={anchor}
+                      disableSwipeToOpen={false}
+                      open={state[anchor]}
+                      onClose={toggleDrawer(anchor, false)}
+                      onOpen={toggleDrawer(anchor, true)}
+                    >
+                      {list(anchor)}
+                    </SwipeableDrawer>
+                  </React.Fragment>
+                ))}
+              </div>
             </Box>
           </Container>
         </Hidden>

@@ -76,10 +76,10 @@ export default function Dashboard() {
         Dashboard
       </h3>
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-md-8 mb-2">
           <PBRStats stats={stats} />
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 mb-2">
           <div>
             <BalancesCard tokens={supportedStaking[chainId]} />
           </div>

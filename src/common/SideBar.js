@@ -7,22 +7,11 @@ import {
   InputAdornment,
   Paper,
   useMediaQuery,
-  Hidden,
-  Input,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { useSelector, useDispatch } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  CurrencyExchange,
-  Dashboard,
-  Group,
-  Home,
-  MonetizationOn,
-  Money,
-  Photo,
-} from "@mui/icons-material";
 import { updateMenuTabIndex } from "../actions/uiActions";
+import { Link, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,12 +33,20 @@ const useStyles = makeStyles((theme) => ({
   },
   menuTitle: {
     fontWeight: 600,
-    fontSize: 16,
-    lineHeight: "30px",
+    fontSize: 15,
+
     color: "white",
     [theme.breakpoints.down("md")]: {
       fontWeight: 500,
-      fontSize: 14,
+      fontSize: 13,
+    },
+  },
+  logo: {
+    height: "100%",
+    maxHeight: 45,
+    maxWidth: 120,
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
     },
   },
 }));
@@ -59,6 +56,7 @@ const SideBar = ({}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
 
   const [filterValue, setFilterValue] = useState("");
   const sm = useMediaQuery(theme.breakpoints.down("md"));
@@ -75,7 +73,7 @@ const SideBar = ({}) => {
       display="flex"
       flexDirection="column"
       height="100%"
-      width="16vw"
+      width="14vw"
       style={{
         position: "fixed",
         top: 40,
@@ -84,98 +82,127 @@ const SideBar = ({}) => {
         position: "fixed",
       }}
     >
+      {console.log("pathname", location.pathname)}
       <Box>
         <Box py={2}>
           <Typography variant="body2" pb={1}>
             <img
               src="https://launchpad.polkabridge.org/img/logo-white.png"
-              height="40px"
+              className={classes.logo}
             />
           </Typography>
         </Box>
+        {console.log(location.pathname)}
         <Box pt={5}>
-          <Paper
-            onClick={() => dispatch(updateMenuTabIndex(0))}
-            key={0}
-            sx={{
-              boxShadow: 0,
+          <Link to="/">
+            <Paper
+              onClick={() => dispatch(updateMenuTabIndex(0))}
+              key={0}
+              sx={{
+                boxShadow: 0,
 
-              bgcolor:
-                menuTabIndex === 0 ? `rgba(130, 71, 229, 0.3)` : "transparent",
-              py: 2,
-              px: 2,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-              borderRadius: 2,
-            }}
-          >
-            <Dashboard style={{ marginRight: 10, color: "white" }} />
-            <Typography variant="title1" className={classes.menuTitle}>
-              Home
-            </Typography>
-          </Paper>
-
-          <Paper
-            onClick={() => dispatch(updateMenuTabIndex(1))}
-            key={1}
-            sx={{
-              boxShadow: 0,
-              borderRadius: 2,
-              bgcolor:
-                menuTabIndex === 1 ? `rgba(130, 71, 229, 0.3)` : "transparent",
-              py: 2,
-              px: 2,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <Money style={{ marginRight: 10, color: "white" }} />
-            <Typography variant="title1" className={classes.menuTitle}>
-              Stake
-            </Typography>
-          </Paper>
-          <Paper
-            onClick={() => dispatch(updateMenuTabIndex(2))}
-            key={2}
-            sx={{
-              boxShadow: 0,
-              borderRadius: 2,
-              bgcolor:
-                menuTabIndex === 2 ? `rgba(130, 71, 229, 0.3)` : "transparent",
-              py: 2,
-              px: 2,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <Group style={{ marginRight: 10, color: "white" }} />
-            <Typography variant="title1" className={classes.menuTitle}>
-              Launchpad
-            </Typography>
-          </Paper>
-          <Paper
-            onClick={() => dispatch(updateMenuTabIndex(3))}
-            key={3}
-            sx={{
-              boxShadow: 0,
-              borderRadius: 2,
-              bgcolor:
-                menuTabIndex === 3 ? `rgba(130, 71, 229, 0.3)` : "transparent",
-              py: 2,
-              px: 2,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            <Photo style={{ marginRight: 10, color: "white" }} />
-            <Typography variant="title1" className={classes.menuTitle}>
-              INO
-            </Typography>
-          </Paper>
+                bgcolor: location.pathname.includes("/")
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
+                py: 2,
+                px: 2,
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                borderRadius: 2,
+              }}
+            >
+              <img
+                src="./home_icon.png"
+                className={classes.logo}
+                style={{ marginRight: 10, color: "white" }}
+              />
+              <Typography variant="title1" className={classes.menuTitle}>
+                Home
+              </Typography>
+            </Paper>
+          </Link>
+          <Link to="/stake">
+            <Paper
+              onClick={() => dispatch(updateMenuTabIndex(1))}
+              key={1}
+              sx={{
+                boxShadow: 0,
+                borderRadius: 2,
+                bgcolor: location.pathname.includes("stake")
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
+                py: 2,
+                px: 2,
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="./stake_icon.png"
+                className={classes.logo}
+                style={{ marginRight: 10, color: "white" }}
+              />
+              <Typography variant="title1" className={classes.menuTitle}>
+                Stake
+              </Typography>
+            </Paper>
+          </Link>
+          <Link to="/launchpad">
+            <Paper
+              onClick={() => dispatch(updateMenuTabIndex(2))}
+              key={2}
+              sx={{
+                boxShadow: 0,
+                borderRadius: 2,
+                bgcolor: location.pathname.includes("launchpad")
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
+                py: 2,
+                px: 2,
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="./launchpad_icon.png"
+                className={classes.logo}
+                style={{ marginRight: 10, color: "white" }}
+              />
+              <Typography variant="title1" className={classes.menuTitle}>
+                Launchpad
+              </Typography>
+            </Paper>
+          </Link>
+          <Link to="/ino">
+            <Paper
+              onClick={() => dispatch(updateMenuTabIndex(3))}
+              key={3}
+              sx={{
+                boxShadow: 0,
+                borderRadius: 2,
+                bgcolor: location.pathname.includes("ino")
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
+                py: 2,
+                px: 2,
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                src="./ino_icon.png"
+                className={classes.logo}
+                style={{ marginRight: 10, color: "white" }}
+              />
+              <Typography variant="title1" className={classes.menuTitle}>
+                INO
+              </Typography>
+            </Paper>
+          </Link>
           <Paper
             onClick={() => dispatch(updateMenuTabIndex(4))}
             key={4}
@@ -191,7 +218,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <CurrencyExchange style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./Swap_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Swap
             </Typography>
@@ -211,7 +242,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <MonetizationOn style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./Farm_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Farm
             </Typography>

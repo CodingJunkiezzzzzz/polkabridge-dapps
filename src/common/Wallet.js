@@ -1,4 +1,4 @@
-import { Button, Box, CircularProgress } from "@mui/material";
+import { Button, Box, CircularProgress, Hidden } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import useActiveWeb3React from "../hooks/useActiveWeb3React";
@@ -86,10 +86,12 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       background: theme.palette.primary.light,
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       marginRight: 0,
-      marginLeft: 15,
-      width: 150,
+      minWidth: 80,
+
+      width: "fit-content",
+      letterSpacing: -0.2,
     },
   },
   connectedButton: {
@@ -148,7 +150,7 @@ const Wallet = ({ onWalletClick }) => {
               </span>
             ) : (
               <span style={{ color: "white", fontWeight: 500 }}>
-                Connect Wallet
+                Connect <Hidden mdDown> Wallet</Hidden>
               </span>
             )}
           </button>
@@ -169,46 +171,28 @@ const Wallet = ({ onWalletClick }) => {
               background: "#eeeeee",
             }}
           >
-            <span
-              style={{
-                color: "#212121",
-                height: "100%",
-                fontWeight: 600,
-                fontSize: 16,
-                letterSpacing: "-0.02em",
-                color: "#414141",
-                textAlign: "center",
-                lineHeight: 1.5,
-                paddingRight: 10,
-              }}
-            >
-              1.2 ETH
-            </span>{" "}
+            <Hidden mdDown>
+              <span
+                style={{
+                  color: "#212121",
+                  height: "100%",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  letterSpacing: "-0.02em",
+                  color: "#414141",
+                  textAlign: "center",
+                  lineHeight: 1.5,
+                  paddingRight: 10,
+                }}
+              >
+                1.2 ETH
+              </span>{" "}
+            </Hidden>
             <span className={classes.connectedAddress}>
               {account.slice(0, 4)}...{account.slice(-4)}
             </span>
           </Button>
         </Box>
-        // <Button onClick={onWalletClick} className={classes.root}>
-        //   <AccountBalanceWallet
-        //     style={{ color: "#bdbdbd", marginRight: 5, fontSize: 20 }}
-        //     fontSize="medium"
-        //   />
-        //   <strong className={classes.numbers}>
-        //     {account ? <span></span> : "..."}
-        //     {[...account?.toString()]?.splice(0, 3)}
-        //     {"..."}
-        //     {[...account?.toString()]?.splice(
-        //       [...account?.toString()]?.length - 4,
-        //       4
-        //     )}
-        //   </strong>
-        //   <strong className={classes.numbersMobile}>
-        //     {account ? <span></span> : "..."}
-        //     {[...account?.toString()]?.splice(0, 3)}
-        //     {".."}
-        //   </strong>
-        // </Button>
       )}
     </div>
   );

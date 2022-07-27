@@ -44,14 +44,22 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "transparent",
     },
     [theme.breakpoints.down("md")]: {
-      padding: "12px 20px 12px 20px",
-      fontSize: 18,
+      padding: "6px 20px 6px 20px",
+      fontSize: 14,
     },
   },
   imageWrapper: {
     background: `linear-gradient(332.86deg, rgba(146, 103, 219, 0.3) 26.45%, rgba(215, 86, 236, 0.3) 69.5%)`,
     borderRadius: "20%",
     padding: 10,
+  },
+  cardTitle: {
+    fontWeight: 600,
+    textAlign: "left",
+    fontSize: 28,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 18,
+    },
   },
 }));
 
@@ -131,9 +139,9 @@ const PbrStats = ({
             }}
           />
           <Grid container px={3}>
-            <Grid item md={8}>
+            <Grid item md={8} xs={12} sm={12}>
               <Grid container>
-                <Grid item md={6}>
+                <Grid item md={6} xs={6} sm={6}>
                   <Box
                     display={"flex"}
                     flexDirection="column"
@@ -166,7 +174,7 @@ const PbrStats = ({
                           paddingLeft: 5,
                         }}
                       >
-                        Millions
+                        M
                       </span>
                     </Typography>
                   </Box>
@@ -201,12 +209,12 @@ const PbrStats = ({
                           paddingLeft: 5,
                         }}
                       >
-                        Millions
+                        M
                       </span>
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item md={6}>
+                <Grid item md={6} xs={6} sm={6}>
                   <Box
                     display={"flex"}
                     flexDirection="column"
@@ -270,7 +278,7 @@ const PbrStats = ({
                       fontWeight={600}
                       fontSize={28}
                     >
-                      77.8M
+                      77.8
                       <span
                         style={{
                           fontSize: 14,
@@ -278,14 +286,14 @@ const PbrStats = ({
                           paddingLeft: 5,
                         }}
                       >
-                        Tokens
+                        M
                       </span>
                     </Typography>
                   </Box>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={4} xs={12} sm={12}>
               <Box
                 display={"flex"}
                 flexDirection="column"
@@ -303,7 +311,6 @@ const PbrStats = ({
                 </Typography>
                 <Typography
                   variant="h5"
-                  className={classes.cardTitle}
                   textAlign="center"
                   fontWeight={700}
                   fontSize={32}

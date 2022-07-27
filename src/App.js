@@ -61,8 +61,12 @@ function App() {
                       <Appbar />
                       <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/:page/" element={<Home />} />
+                        <Route path="/:page/:subpage" element={<Home />} />
+                        <Route path="/:page/:subpage/:id" element={<Home />} />
+
                         <Route
-                          path="/view-launchpad"
+                          path="/:page/view-launchpad"
                           element={<LaunchpadDetails />}
                         />
                         <Route
