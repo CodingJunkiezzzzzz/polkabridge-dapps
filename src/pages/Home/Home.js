@@ -57,10 +57,10 @@ export default function Home() {
 
   return (
     <Container>
-      {menuTabIndex === 0 && <Dashboard />}
-      {menuTabIndex === 1 && <Stake />}
-      {menuTabIndex === 2 && <Launchpad />}
-      {menuTabIndex === 3 && <Ino />}
+      {parseInt(menuTabIndex) === 0 && <Dashboard />}
+      {parseInt(menuTabIndex) === 1 && <Stake />}
+      {parseInt(menuTabIndex) === 2 && <Launchpad />}
+      {parseInt(menuTabIndex) === 3 && <Ino />}
     </Container>
   );
 }

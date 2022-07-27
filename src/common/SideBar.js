@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   useTheme,
@@ -66,6 +66,11 @@ const SideBar = ({}) => {
 
   let menuTabs = ["Home", "Stake", "Launchpad", "INO", "Swap"];
 
+  useEffect(() => {
+    let value = localStorage.getItem("tab");
+    dispatch(updateMenuTabIndex(value));
+  }, []);
+
   return (
     <Box
       px={2}
@@ -101,7 +106,9 @@ const SideBar = ({}) => {
               boxShadow: 0,
 
               bgcolor:
-                menuTabIndex === 0 ? `rgba(130, 71, 229, 0.3)` : "transparent",
+                parseInt(menuTabIndex) === 0
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
               py: 2,
               px: 2,
               display: "flex",
@@ -123,7 +130,9 @@ const SideBar = ({}) => {
               boxShadow: 0,
               borderRadius: 2,
               bgcolor:
-                menuTabIndex === 1 ? `rgba(130, 71, 229, 0.3)` : "transparent",
+                parseInt(menuTabIndex) === 1
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
               py: 2,
               px: 2,
               display: "flex",
@@ -143,7 +152,9 @@ const SideBar = ({}) => {
               boxShadow: 0,
               borderRadius: 2,
               bgcolor:
-                menuTabIndex === 2 ? `rgba(130, 71, 229, 0.3)` : "transparent",
+                parseInt(menuTabIndex) === 2
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
               py: 2,
               px: 2,
               display: "flex",
@@ -163,7 +174,9 @@ const SideBar = ({}) => {
               boxShadow: 0,
               borderRadius: 2,
               bgcolor:
-                menuTabIndex === 3 ? `rgba(130, 71, 229, 0.3)` : "transparent",
+                parseInt(menuTabIndex) === 3
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
               py: 2,
               px: 2,
               display: "flex",
@@ -203,7 +216,9 @@ const SideBar = ({}) => {
               boxShadow: 0,
               borderRadius: 2,
               bgcolor:
-                menuTabIndex === 5 ? `rgba(130, 71, 229, 0.3)` : "transparent",
+                parseInt(menuTabIndex) === 5
+                  ? `rgba(130, 71, 229, 0.3)`
+                  : "transparent",
               py: 2,
               px: 2,
               display: "flex",
