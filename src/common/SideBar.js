@@ -7,22 +7,11 @@ import {
   InputAdornment,
   Paper,
   useMediaQuery,
-  Hidden,
-  Input,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { useSelector, useDispatch } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  CurrencyExchange,
-  Dashboard,
-  Group,
-  Home,
-  MonetizationOn,
-  Money,
-  Photo,
-} from "@mui/icons-material";
 import { updateMenuTabIndex } from "../actions/uiActions";
+import { Link, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,12 +33,20 @@ const useStyles = makeStyles((theme) => ({
   },
   menuTitle: {
     fontWeight: 600,
-    fontSize: 16,
-    lineHeight: "30px",
+    fontSize: 15,
+
     color: "white",
     [theme.breakpoints.down("md")]: {
       fontWeight: 500,
-      fontSize: 14,
+      fontSize: 13,
+    },
+  },
+  logo: {
+    height: "100%",
+    maxHeight: 45,
+    maxWidth: 120,
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
     },
   },
 }));
@@ -59,6 +56,7 @@ const SideBar = ({}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
 
   const [filterValue, setFilterValue] = useState("");
   const sm = useMediaQuery(theme.breakpoints.down("md"));
@@ -80,7 +78,7 @@ const SideBar = ({}) => {
       display="flex"
       flexDirection="column"
       height="100%"
-      width="16vw"
+      width="14vw"
       style={{
         position: "fixed",
         top: 40,
@@ -89,15 +87,17 @@ const SideBar = ({}) => {
         position: "fixed",
       }}
     >
+      {console.log("pathname", location.pathname)}
       <Box>
         <Box py={2}>
           <Typography variant="body2" pb={1}>
             <img
               src="https://launchpad.polkabridge.org/img/logo-white.png"
-              height="40px"
+              className={classes.logo}
             />
           </Typography>
         </Box>
+        {console.log(location.pathname)}
         <Box pt={5}>
           <Paper
             onClick={() => dispatch(updateMenuTabIndex(0))}
@@ -204,7 +204,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <CurrencyExchange style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./Swap_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Swap
             </Typography>
@@ -226,7 +230,11 @@ const SideBar = ({}) => {
               cursor: "pointer",
             }}
           >
-            <MonetizationOn style={{ marginRight: 10, color: "white" }} />
+            <img
+              src="./Farm_icon.png"
+              className={classes.logo}
+              style={{ marginRight: 10, color: "white" }}
+            />
             <Typography variant="title1" className={classes.menuTitle}>
               Farm
             </Typography>
